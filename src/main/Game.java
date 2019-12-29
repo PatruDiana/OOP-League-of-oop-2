@@ -3,6 +3,8 @@ import fileio.FileSystem;
 import heroes.Hero;
 import heroes.HeroFactory;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 public final class Game {
     private static Game instance = null;
@@ -10,21 +12,27 @@ public final class Game {
     private ArrayList<String> playersinfo;
     private ArrayList<Integer> coordplayers;
     private ArrayList<Character> arraymoves;
+    private java.util.ArrayList<Integer> nrroundsangel;
+    private java.util.ArrayList<String> angelsinfo;
     private int rounds;
 
     private Game(final ArrayList<String> playersinfo, final ArrayList<Integer> coordplayers,
-                final ArrayList<Character> arraymoves, final int rounds) {
+                final ArrayList<Character> arraymoves, final int rounds, final ArrayList<Integer> nrroundsangel,
+                 final ArrayList<String> angelsinfo) {
         this.playersinfo = playersinfo;
         this.heroes = new ArrayList<>(playersinfo.size());
         this.arraymoves = arraymoves;
         this.coordplayers = coordplayers;
+        this.nrroundsangel = nrroundsangel;
+        this.angelsinfo = angelsinfo;
         this.rounds = rounds;
     }
 
     static Game getInstance(final ArrayList<String> playersinfo,
                             final ArrayList<Integer> coordplayers,
-                            final ArrayList<Character> arraymoves, final int rounds) {
-        instance = new Game(playersinfo, coordplayers, arraymoves, rounds);
+                            final ArrayList<Character> arraymoves, final int rounds, final ArrayList<Integer> nrroundsangel,
+                            final ArrayList<String> angelsinfo){
+        instance = new Game(playersinfo, coordplayers, arraymoves, rounds, nrroundsangel, angelsinfo);
         return instance;
     }
 
@@ -127,6 +135,9 @@ public final class Game {
             fs.close();
         } catch (Exception e1) {
             e1.printStackTrace();
+        }
+        for (int i = 0 ; i < nrroundsangel.size(); i++) {
+            System.out.println(nrroundsangel.get(i) + ": " + angelsinfo.get(i));
         }
     }
 }

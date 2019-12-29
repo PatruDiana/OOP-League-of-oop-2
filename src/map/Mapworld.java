@@ -1,23 +1,23 @@
 package map;
 
 import common.Constants;
-public class Map {
-    private static Map instance = null;
+public class Mapworld {
+    private static Mapworld instance = null;
     private int[][] map;
     private int row;
     private int col;
 
 
-    Map(final int row, final int column) {
+    Mapworld(final int row, final int column) {
         this.map = new int[row][column];
         this.row = row;
         this.col = column;
     }
-    public static Map getInstance(final int row, final int column) {
-        instance = new Map(row, column);
+    public static Mapworld getInstance(final int row, final int column) {
+        instance = new Mapworld(row, column);
         return instance;
     }
-    public static Map getInstance() {
+    public static Mapworld getInstance() {
         return instance;
     }
 

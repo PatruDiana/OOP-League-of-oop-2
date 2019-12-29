@@ -1,8 +1,9 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Map;
+
 import fileio.FileSystem;
-import map.Map;
 
 public class GameInputLoader {
     private final String mInputPath;
@@ -21,15 +22,17 @@ public class GameInputLoader {
         ArrayList<String> playersinfo = new ArrayList<>();
         ArrayList<Integer> coordplayers = new ArrayList<>();
         ArrayList<Character> arraymoves = new ArrayList<>();
+        ArrayList<Integer> nrroundsangels = new ArrayList<>();
+        ArrayList<String> angelsinfo = new ArrayList<>();
         try {
             FileSystem fs = new FileSystem(mInputPath, mOutputPath);
 
             nrRows = fs.nextInt();
             nrCols = fs.nextInt();
-            Map map = Map.getInstance(nrRows, nrCols);
+            map.Mapworld mapworld = map.Mapworld.getInstance(nrRows, nrCols);
 
             for (int i = 0; i < nrRows; i++) {
-                map.setLocation(fs.nextWord(), i);
+                mapworld.setLocation(fs.nextWord(), i);
             }
             nrHeroes = fs.nextInt();
             for (int i = 0; i < nrHeroes; i++) {
@@ -45,12 +48,22 @@ public class GameInputLoader {
                     arraymoves.add(c);
                 }
             }
+            for(int i = 0; i < nrRounds; i++) {
+                int round = fs.nextInt();
+                String info = fs.nextWord();
+//                System.out.println(round);
+//                System.out.println(info);
+                nrroundsangels.add(round);
+                angelsinfo.add(info);
+            }
+
+
           fs.close();
 
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-         Game game = Game.getInstance(playersinfo, coordplayers, arraymoves, nrRounds);
+         Game game = Game.getInstance(playersinfo, coordplayers, arraymoves, nrRounds, nrroundsangels, angelsinfo);
     }
 
 }
