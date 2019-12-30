@@ -7,6 +7,10 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Paralysis extends Abilities implements Visitor {
+    private float ParalysisRogue = 0.9f;
+    private float ParalysisKnight = 0.8f;
+    private float ParalysisPyromancer = 1.2f;
+    private float ParalysisWizard = 1.25f;
     public Paralysis() {
         damage = Constants.DAMAGE_PARALYSIS;
         nrRoundsOvertime = Constants.NR_ROUNDS_OVERTIME_MIN;
@@ -17,6 +21,22 @@ public class Paralysis extends Abilities implements Visitor {
      */
     public void setDamage() {
         damage += Constants.EXTRA_DAMAGE_PARAYSIS;
+    }
+
+    @Override
+    public void setCoefOffensive(float coef) {
+        ParalysisKnight += coef;
+        ParalysisPyromancer += coef;
+        ParalysisRogue += coef;
+        ParalysisWizard += coef;
+    }
+
+    @Override
+    public void setCoefDefensive(float coef) {
+        ParalysisKnight -= coef;
+        ParalysisPyromancer -= coef;
+        ParalysisRogue -= coef;
+        ParalysisWizard -= coef;
     }
 
     /**
@@ -31,9 +51,11 @@ public class Paralysis extends Abilities implements Visitor {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg += Constants.PYROMANCER_MODIFICATOR_P * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * ParalysisPyromancer;
+        int result = Math.round(damagelandrace);
+        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
         // set the damage overtime
@@ -57,9 +79,11 @@ public class Paralysis extends Abilities implements Visitor {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg -= Constants.KNIGHT_MODIFICATOR_P * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * ParalysisKnight;
+        int result = Math.round(damagelandrace);
+        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
         // set the damage overtime
@@ -84,9 +108,11 @@ public class Paralysis extends Abilities implements Visitor {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg -= Constants.ROGUE_MODIFICATOR_P * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * ParalysisRogue;
+        int result = Math.round(damagelandrace);
+        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
         // set the damage overtime
@@ -111,11 +137,13 @@ public class Paralysis extends Abilities implements Visitor {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // setting the damage received without the race modifier for the wizard hero
-        w.setDamageRec(dmg);
+        w.setDamageRec(damageland);
         // applying the race modifier
-        dmg += Constants.WIZARD_MODIFICATOR_P * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * ParalysisWizard;
+        int result = Math.round(damagelandrace);
+        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
         // set the damage overtime

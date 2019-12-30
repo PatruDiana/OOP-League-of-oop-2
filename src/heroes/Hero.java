@@ -65,6 +65,10 @@ public abstract class Hero implements Visitable {
         return this.abilities;
     }
 
+    public void setHpCurrentStrategy(final int life) {
+        this.hpCurrent = life;
+    }
+
     /**
      * set the current hp during a fight.
      * @param damage - the damage received by an opponent
@@ -215,8 +219,8 @@ public abstract class Hero implements Visitable {
      * sets the damage received by the opponent to the Wizard hero.
      * @param damageRec - the damage received.
      */
-    public void setDamageRec(final float damageRec) {
-        this.damageRec += Math.round(damageRec);
+    public void setDamageRec(final int damageRec) {
+        this.damageRec += damageRec;
     }
 
     /**
@@ -236,4 +240,5 @@ public abstract class Hero implements Visitable {
     public int getHpMax() {
         return hpMax;
     }
+    public abstract void setTheStrategy();
 }

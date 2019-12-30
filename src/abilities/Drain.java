@@ -7,7 +7,10 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Drain extends Abilities implements Visitor {
-
+    private float DrainRogue = 0.8f;
+    private float DrainKnight = 1.2f;
+    private float DrainPyromancer = 0.9f;
+    private float DrainWizard = 1.05f;
     public Drain() {
         damageprocent = Constants.PERCENT_DRAIN;
     }
@@ -17,6 +20,22 @@ public class Drain extends Abilities implements Visitor {
      */
     public void setDamage() {
         damageprocent += Constants.EXTRA_PERCENT_DRAIN;
+    }
+
+    @Override
+    public void setCoefOffensive(float coef) {
+        DrainRogue += coef;
+        DrainKnight += coef;
+        DrainPyromancer += coef;
+        DrainWizard += coef;
+    }
+
+    @Override
+    public void setCoefDefensive(float coef) {
+        DrainRogue -= coef;
+        DrainKnight -= coef;
+        DrainPyromancer -= coef;
+        DrainWizard -= coef;
     }
 
     /**
@@ -31,10 +50,13 @@ public class Drain extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
+        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        dmgpercent -= dmgpercent * Constants.PYROMANCER_MODIFICATOR_DR;
-        float dmg = dmgpercent * Math.min(Constants.HP_MIN_DRAIN * p.getHpMax(), p.getHpCurrent());
+        float damagelandrace = damageland * DrainPyromancer;
+        int dmglandrace = Math.round(damagelandrace);
+        float dmg = dmglandrace * Math.min(Constants.HP_MIN_DRAIN * p.getHpMax(), p.getHpCurrent());
         int result = Math.round(dmg);
+        System.out.println("Drain :"  + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
     }
@@ -51,10 +73,13 @@ public class Drain extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
+        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        dmgpercent += dmgpercent * Constants.KNIGHT_MODIFICATOR_DR;
-        float dmg = dmgpercent * Math.min(Constants.HP_MIN_DRAIN * k.getHpMax(), k.getHpCurrent());
+        float damagelandrace = damageland * DrainKnight;
+        int dmglandrace = Math.round(damagelandrace);
+        float dmg = dmglandrace* Math.min(Constants.HP_MIN_DRAIN * k.getHpMax(), k.getHpCurrent());
         int result = Math.round(dmg);
+        System.out.println("Drain :"  + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
     }
@@ -71,10 +96,13 @@ public class Drain extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
+        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        dmgpercent -= dmgpercent * Constants.ROGUE_MODIFICATOR_DR;
-        float dmg = dmgpercent * Math.min(Constants.HP_MIN_DRAIN * r.getHpMax(), r.getHpCurrent());
+        float damagelandrace = damageland * DrainRogue;
+        int dmglandrace = Math.round(damagelandrace);
+        float dmg = dmglandrace * Math.min(Constants.HP_MIN_DRAIN * r.getHpMax(), r.getHpCurrent());
         int result = Math.round(dmg);
+        System.out.println("Drain :"  + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
     }
@@ -91,13 +119,17 @@ public class Drain extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
-        float dmg = dmgpercent * Math.min(Constants.HP_MIN_DRAIN * w.getHpMax(), w.getHpCurrent());
+        int damageland = Math.round(dmgpercent);
+        float dmg = damageland* Math.min(Constants.HP_MIN_DRAIN * w.getHpMax(), w.getHpCurrent());
+        int dmgland = Math.round(dmg);
         // setting the damage received without the race modifier for the wizard hero
-        w.setDamageRec(dmg);
+        w.setDamageRec(dmgland);
         // applying the race modifier
-        dmgpercent += dmgpercent * Constants.WIRZARD_MODIFICATOR_DR;
-        dmg = dmgpercent * Math.min(Constants.HP_MIN_DRAIN * w.getHpMax(), w.getHpCurrent());
+        float damagelandrace = DrainWizard * damageland;
+        int dmglandrace = Math.round(damagelandrace);
+        dmg = dmglandrace * Math.min(Constants.HP_MIN_DRAIN * w.getHpMax(), w.getHpCurrent());
         int result = Math.round(dmg);
+        System.out.println("Drain :"  + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
     }

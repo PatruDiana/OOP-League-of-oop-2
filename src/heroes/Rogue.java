@@ -36,6 +36,8 @@ public class Rogue extends Hero {
         hp = hpMax;
         hpCurrent = hpMax;
     }
+
+
     public void setTheStrategy() {
         if(1f/7* getHpMax() < hpCurrent && hpCurrent < 1f/5 * getHpMax()) {
             strategy = new OffensiveRogueStrategy();

@@ -36,6 +36,8 @@ public class Knight extends Hero {
         hp = hpMax;
         hpCurrent = hpMax;
     }
+
+
     public void setTheStrategy() {
         if(1f/3 * getHpMax() < hpCurrent && hpCurrent < 1f/2* getHpMax()) {
            strategy = new OffensiveKnightStrategy();

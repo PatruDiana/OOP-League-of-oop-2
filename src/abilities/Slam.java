@@ -7,6 +7,10 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Slam extends Abilities implements Visitor {
+    private float SlamRogue = 0.8f;
+    private float SlamKnight = 1.2f;
+    private float SlamPyromancer = 0.9f;
+    private float SlamWizard = 1.05f;
     public Slam() {
         damage = Constants.DAMAGE_SLAM;
         nrRoundsOvertime = Constants.NR_ROUNDS_OVERTIME_S;
@@ -17,6 +21,22 @@ public class Slam extends Abilities implements Visitor {
      */
     public void setDamage() {
         damage += Constants.EXTRA_DAMAGE_SLAM;
+    }
+
+    @Override
+    public void setCoefOffensive(float coef) {
+        SlamKnight += coef;
+        SlamPyromancer += coef;
+        SlamRogue += coef;
+        SlamWizard += coef;
+    }
+
+    @Override
+    public void setCoefDefensive(float coef) {
+        SlamKnight -= coef;
+        SlamPyromancer -= coef;
+        SlamRogue -= coef;
+        SlamWizard -= coef;
     }
 
     /**
@@ -31,11 +51,13 @@ public class Slam extends Abilities implements Visitor {
             landBonus += Constants.LAND_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg -= dmg * Constants.PYROMANCER_MODIFICATOR_S;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * SlamPyromancer;
+        int result = Math.round(damagelandrace);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
+        System.out.println("Slam :"  + result);
         // set the damage overtime
         p.setDamageOvertime(0, nrRoundsOvertime, true);
     }
@@ -52,9 +74,11 @@ public class Slam extends Abilities implements Visitor {
             landBonus += Constants.LAND_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg += dmg * Constants.KNIGHT_MODIFICATOR_S;
-        int result = Math.round(dmg);
+        float damagelandrace  = SlamKnight * damageland;
+        int result = Math.round(damagelandrace);
+        System.out.println("Slam :"  + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
         // set the damage overtime
@@ -74,9 +98,11 @@ public class Slam extends Abilities implements Visitor {
             landBonus += Constants.LAND_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg -= dmg * Constants.ROGUE_MODIFICATOR_S;
-        int result = Math.round(dmg);
+        float damagelandrace = SlamRogue * damageland;
+        int result = Math.round(damagelandrace);
+        System.out.println("Slam :"  + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
         // set the damage overtime
@@ -96,11 +122,13 @@ public class Slam extends Abilities implements Visitor {
             landBonus += Constants.LAND_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // setting the damage received without the race modifier for the wizard hero
-        w.setDamageRec(dmg);
+        w.setDamageRec(damageland);
         // applying the race modifier
-        dmg += dmg * Constants.WIZARD_MODIFICATOR_S;
-        int result = Math.round(dmg);
+        float damagelandrace = SlamWizard * damageland;
+        int result = Math.round(damagelandrace);
+        System.out.println("Slam :"  + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
         // set the damage overtime

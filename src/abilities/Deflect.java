@@ -7,6 +7,9 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Deflect extends Abilities implements Visitor {
+    private float DeflectRogue = 1.2f;
+    private float DeflectKnight = 1.4f;
+    private float DeflectPyromancer = 1.3f;
     Deflect() {
       damageprocent = Constants.PERCENT_DEFLECT;
     }
@@ -28,6 +31,20 @@ public class Deflect extends Abilities implements Visitor {
         damage = damagereceived;
     }
 
+    @Override
+    public void setCoefOffensive(float coef) {
+        DeflectKnight += coef;
+        DeflectPyromancer += coef;
+        DeflectRogue += coef;
+    }
+
+    @Override
+    public void setCoefDefensive(float coef) {
+        DeflectKnight -= coef;
+        DeflectPyromancer -= coef;
+        DeflectRogue -= coef;
+    }
+
     /**
      * applying the Deflect ability to the Pyromancer hero type.
      * @param p - a Pyromancer-type hero.
@@ -40,10 +57,13 @@ public class Deflect extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
+        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        dmgpercent += dmgpercent * Constants.PYROMANCER_MODIFICATOR_DE;
-        float dmg = dmgpercent * damage;
+        float damagelandrace = damageland * DeflectPyromancer;
+        int dmglandrace = Math.round(damagelandrace);
+        float dmg = dmglandrace * damage;
         int result = Math.round(dmg);
+        System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
     }
@@ -60,10 +80,13 @@ public class Deflect extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
+        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        dmgpercent += dmgpercent * Constants.KNIGHT_MODIFICATOR_DE;
-        float dmg = dmgpercent * damage;
+        float damagelandrace = damageland * DeflectKnight;
+        int dmglandrace = Math.round(damagelandrace);
+        float dmg = dmglandrace * damage;
         int result = Math.round(dmg);
+        System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
     }
@@ -80,10 +103,13 @@ public class Deflect extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
+        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        dmgpercent += dmgpercent * Constants.ROQUE_MODIFICATOR_DE;
-        float dmg = dmgpercent * damage;
+        float damagelandrace = damageland * DeflectRogue;
+        int dmglandrace = Math.round(damagelandrace);
+        float dmg = dmglandrace * damage;
         int result = Math.round(dmg);
+        System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
     }
@@ -92,7 +118,5 @@ public class Deflect extends Abilities implements Visitor {
      * The Deflect ability has no effect on a Wizard hero.
      * @param w - a Wizard-type hero.
      */
-    public void visit(final Wizard w) {
-
-    }
+    public void visit(final Wizard w) {}
 }

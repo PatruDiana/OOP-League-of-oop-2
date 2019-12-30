@@ -70,6 +70,10 @@ public final class Game {
             for (int j = 0; j < heroes.size(); j++) {
                 heroes.get(j).damageOvertime();
             }
+            // set the strategy of each player
+            for (int j = 0; j < heroes.size(); j++) {
+                heroes.get(j).setTheStrategy();
+            }
             for (int j = 0; j < heroes.size(); j++) {
                 for (int k = j + 1; k < heroes.size(); k++) {
                     // finding the opponent
@@ -117,6 +121,7 @@ public final class Game {
                     heroes.get(j).resetDamageRec();
                 }
             }
+
         }
     }
 
@@ -136,8 +141,8 @@ public final class Game {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        for (int i = 0 ; i < nrroundsangel.size(); i++) {
-            System.out.println(nrroundsangel.get(i) + ": " + angelsinfo.get(i));
-        }
+//        for (int i = 0 ; i < nrroundsangel.size(); i++) {
+//            System.out.println(nrroundsangel.get(i) + ": " + angelsinfo.get(i));
+//        }
     }
 }

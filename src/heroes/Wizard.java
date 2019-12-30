@@ -35,6 +35,7 @@ public class Wizard extends Hero {
         hp = hpMax;
         hpCurrent = hpMax;
     }
+
     public void setTheStrategy(){
         if(1f/4 * getHpMax() < hpCurrent && hpCurrent < 1f/2 * getHpMax()) {
             strategy = new OffensiveWizardStrategy();

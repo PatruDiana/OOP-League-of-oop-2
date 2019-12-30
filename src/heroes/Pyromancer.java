@@ -7,10 +7,6 @@ import strategies.DefensivePyromancerStrategy;
 import strategies.OffensivePyromancerStrategy;
 
 public class Pyromancer extends Hero {
-    private float ROGUE_MODIFICATOR_F = 0.8f;
-    private float KNIGHT_MODIFICATOR_F = 1.2f;
-    private float PYROMANCER_MODIFICATOR_F = 0.9f;
-    private float WIZARD_MODIFICATOR_F = 1.05f;
     Pyromancer(final int row, final int col) {
         this.row = row;
         this.col = col;
@@ -22,6 +18,7 @@ public class Pyromancer extends Hero {
         this.hpCurrent = Constants.HP_PYROMANCER;
         this.hpMax = Constants.HP_PYROMANCER;
     }
+
 
     /**
      * requires the visitor to visit the current hero.

@@ -19,4 +19,6 @@ public abstract class Abilities implements Visitor {
      * @param damagereceived- damage received by the Wizard.
      */
     public void setDamagereceived(final int damagereceived) { }
+    public abstract void setCoefOffensive(float coef);
+    public abstract void setCoefDefensive(float coef);
 }

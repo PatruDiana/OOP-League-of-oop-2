@@ -7,6 +7,10 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Execute extends  Abilities implements Visitor {
+    private float ExecuteRogue = 1.15f;
+    private float ExecuteKnight = 1f;
+    private float ExecutePyromancer = 1.1f;
+    private float ExecuteWizard = 0.8f;
     public Execute() {
         damage = Constants.DAMAGE_EXECUTE;
         damageprocent = Constants.HP_LIMIT;
@@ -20,6 +24,22 @@ public class Execute extends  Abilities implements Visitor {
         if (damageprocent < Constants.HP_MAX_LIMIT) {
             damageprocent += Constants.EXTRA_HP_LIMIT;
         }
+    }
+
+    @Override
+    public void setCoefOffensive(float coef) {
+        ExecuteKnight += coef;
+        ExecutePyromancer += coef;
+        ExecuteRogue += coef;
+        ExecuteWizard += coef;
+    }
+
+    @Override
+    public void setCoefDefensive(float coef) {
+        ExecuteKnight -= coef;
+        ExecutePyromancer -= coef;
+        ExecuteRogue -= coef;
+        ExecuteWizard -= coef;
     }
 
     /**
@@ -40,9 +60,11 @@ public class Execute extends  Abilities implements Visitor {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
+            int damageland = Math.round(dmg);
             // applying the race modifier
-            dmg += dmg * Constants.PYROMANCER_MODIFICATOR_E;
-            int result = Math.round(dmg);
+            float damagelandrace = damageland * ExecutePyromancer;
+            int result = Math.round(damagelandrace);
+            System.out.println("Execute :"  + result);
             // decrease of the final damage from the opponent's hp
             p.setHpCurrent(result);
         }
@@ -66,9 +88,11 @@ public class Execute extends  Abilities implements Visitor {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
+            int damageland = Math.round(dmg);
             // applying the race modifier
-            dmg += dmg * Constants.KNIGHT_MODIFICATOR_E;
-            int result = Math.round(dmg);
+            float damagelandrace = damageland * ExecuteKnight;
+            int result = Math.round(damagelandrace);
+            System.out.println("Execute :"  + result);
             // decrease of the final damage from the opponent's hp
             k.setHpCurrent(result);
         }
@@ -92,9 +116,11 @@ public class Execute extends  Abilities implements Visitor {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
+            int damageland = Math.round(dmg);
             // applying the race modifier
-            dmg += dmg * Constants.ROGUE_MODIFICATOR_E;
-            int result = Math.round(dmg);
+            float damagelandrace = damageland * ExecuteRogue;
+            int result = Math.round(damagelandrace);
+            System.out.println("Execute :"  + result);
             // decrease of the final damage from the opponent's hp
             r.setHpCurrent(result);
         }
@@ -118,11 +144,13 @@ public class Execute extends  Abilities implements Visitor {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
+            int damageland = Math.round(dmg);
             // setting the damage received without the race modifier for the wizard hero
-            w.setDamageRec(dmg);
+            w.setDamageRec(damageland);
             // applying the race modifier
-            dmg -= dmg * Constants.WIZARD_MODIFICATOR_E;
-            int result = Math.round(dmg);
+            float damagelandrace = ExecuteWizard * damageland;
+            int result = Math.round(damagelandrace);
+            System.out.println("Execute :"  + result);
             // decrease of the final damage from the opponent's hp
             w.setHpCurrent(result);
         }

@@ -9,6 +9,10 @@ import heroes.Wizard;
 public class Backstab extends Abilities implements Visitor {
     private int nrRounds;
     private float woodsModificator;
+    private float BackstabRogue = 1.2f;
+    private float BackstabKnight = 0.9f;
+    private float BackstabPyromancer = 1.25f;
+    private float BackstabWizard = 1.25f;
     Backstab() {
         damage = Constants.DAMAGE_BACKSTAB;
         nrRounds = 0;
@@ -20,6 +24,22 @@ public class Backstab extends Abilities implements Visitor {
      */
     public void setDamage() {
         damage += Constants.EXTRA_DAMAGE_BACKSTAB;
+    }
+
+    @Override
+    public void setCoefOffensive(float coef) {
+        BackstabKnight += coef;
+        BackstabPyromancer += coef;
+        BackstabRogue += coef;
+        BackstabWizard += coef;
+    }
+
+    @Override
+    public void setCoefDefensive(float coef) {
+        BackstabKnight -= coef;
+        BackstabPyromancer -= coef;
+        BackstabRogue -= coef;
+        BackstabWizard -= coef;
     }
 
     /**
@@ -42,10 +62,13 @@ public class Backstab extends Abilities implements Visitor {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg += Constants.PYROMANCER_MODIFICATOR_B *  dmg;
-        dmg = woods * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * BackstabPyromancer;
+        int dmglandrace = Math.round(damagelandrace);
+        float damagerace = woods * dmglandrace;
+        int result = Math.round(damagerace);
+        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
     }
@@ -70,10 +93,13 @@ public class Backstab extends Abilities implements Visitor {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg -= Constants.KNIGHT_MODIFICATOR_B * dmg;
-        dmg = woods * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * BackstabKnight;
+        int dmglandrace = Math.round(damagelandrace);
+        float damagerace = woods * dmglandrace;
+        int result = Math.round(damagerace);
+        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
 
@@ -99,10 +125,13 @@ public class Backstab extends Abilities implements Visitor {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
         // applying the race modifier
-        dmg += Constants.ROGUE_MODIFICATOR_B * dmg;
-        dmg = woods * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = damageland * BackstabRogue;
+        int dmglandrace = Math.round(damagelandrace);
+        float damagerace = woods * dmglandrace;
+        int result = Math.round(damagerace);
+        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
 
@@ -128,12 +157,15 @@ public class Backstab extends Abilities implements Visitor {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
-        dmg = woods * dmg;
+        int damageland = Math.round(dmg);
+        float damagewood = woods * damageland;
+        int dmgwood = Math.round(damagewood);
         // setting the damage received without the race modifier for the wizard hero
-        w.setDamageRec(dmg);
+        w.setDamageRec(dmgwood);
         // applying the race modifier
-        dmg += Constants.WIZARD_MODIFICATOR_B * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = dmgwood * BackstabWizard;
+        int result = Math.round(damagelandrace);
+        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
 

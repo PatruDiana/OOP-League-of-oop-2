@@ -7,6 +7,27 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Fireblast extends Abilities implements Visitor {
+    private float FireblastRogue = 0.8f;
+    private float FireblastKnight = 1.2f;
+    private float FireblastPyromancer = 0.9f;
+    private float FireblastWizard = 1.05f;
+
+    @Override
+    public void setCoefOffensive(float coef) {
+        FireblastKnight += coef;
+        FireblastPyromancer +=coef;
+        FireblastRogue += coef;
+        FireblastWizard +=coef;
+    }
+
+    @Override
+    public void setCoefDefensive(float coef) {
+        FireblastKnight -= coef;
+        FireblastPyromancer -=coef;
+        FireblastRogue -= coef;
+        FireblastWizard -=coef;
+    }
+
     Fireblast() {
         damage = Constants.DAMAGE_FIREBLAST;
     }
@@ -30,9 +51,11 @@ public class Fireblast extends Abilities implements Visitor {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
+        int damagewithland = Math.round(dmg);
         // applying the race modifier
-        dmg -= Constants.PYROMANCER_MODIFICATOR_F * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = FireblastPyromancer * damagewithland;
+        int result = Math.round(damagelandrace);
+        System.out.println("Fireblast:"  + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
     }
@@ -49,9 +72,11 @@ public class Fireblast extends Abilities implements Visitor {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
+        int damagewithland = Math.round(dmg);
         // applying the race modifier
-        dmg += Constants.KNIGHT_MODIFICATOR_F * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = FireblastKnight * damagewithland;
+        int result = Math.round(damagelandrace);
+        System.out.println("Fireblast:"  + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
     }
@@ -68,9 +93,10 @@ public class Fireblast extends Abilities implements Visitor {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
+        int damagewithland = Math.round(dmg);
         // applying the race modifier
-        dmg -= Constants.ROGUE_MODIFICATOR_F * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = FireblastRogue * damagewithland;
+        int result = Math.round(damagelandrace);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
     }
@@ -87,11 +113,12 @@ public class Fireblast extends Abilities implements Visitor {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
+        int damagewithland = Math.round(dmg);
         // setting the damage received without the race modifier for the wizard hero
-        w.setDamageRec(dmg);
+        w.setDamageRec(damagewithland);
         // applying the race modifier
-        dmg += common.Constants.WIZARD_MODIFICATOR_F * dmg;
-        int result = Math.round(dmg);
+        float damagelandrace = FireblastWizard * damagewithland;
+        int result = Math.round(damagelandrace);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
     }
