@@ -30,7 +30,7 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
@@ -56,7 +56,7 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
@@ -82,7 +82,7 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
@@ -107,7 +107,7 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;

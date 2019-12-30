@@ -5,7 +5,6 @@ import heroes.Knight;
 import heroes.Pyromancer;
 import heroes.Rogue;
 import heroes.Wizard;
-import map.Map;
 
 public class Paralysis extends Abilities implements Visitor {
     public Paralysis() {
@@ -28,7 +27,7 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (Map.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -38,7 +37,7 @@ public class Paralysis extends Abilities implements Visitor {
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
         // set the damage overtime
-        if (Map.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             p.setDamageOvertime(result, nrRounds, true);
         } else {
@@ -54,7 +53,7 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (Map.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -64,7 +63,7 @@ public class Paralysis extends Abilities implements Visitor {
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
         // set the damage overtime
-        if (Map.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             k.setDamageOvertime(result, nrRounds, true);
         } else {
@@ -81,7 +80,7 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (Map.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -91,7 +90,7 @@ public class Paralysis extends Abilities implements Visitor {
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
         // set the damage overtime
-        if (Map.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             r.setDamageOvertime(result, nrRounds, true);
         } else {
@@ -108,7 +107,7 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (Map.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -120,7 +119,7 @@ public class Paralysis extends Abilities implements Visitor {
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
         // set the damage overtime
-        if (Map.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             w.setDamageOvertime(result, nrRounds, true);
         } else {

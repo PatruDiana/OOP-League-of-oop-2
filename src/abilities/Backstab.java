@@ -32,13 +32,13 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Map.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -60,13 +60,13 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Map.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -89,13 +89,13 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Map.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -118,13 +118,13 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Map.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
         // applying the lang type bonus
-        if (map.Map.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;

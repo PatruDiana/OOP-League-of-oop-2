@@ -3,6 +3,8 @@ package heroes;
 import abilities.Visitor;
 import common.Constants;
 import abilities.AbilitiesFactory;
+import strategies.DefensiveWizardStrategy;
+import strategies.OffensiveWizardStrategy;
 
 
 public class Wizard extends Hero {
@@ -15,7 +17,7 @@ public class Wizard extends Hero {
         this.freeze = false;
         this.death = false;
         this.hpCurrent = Constants.HP_WIZARD;
-        this.hpmax = Constants.HP_WIZARD;
+        this.hpMax = Constants.HP_WIZARD;
     }
 
     /**
@@ -29,8 +31,17 @@ public class Wizard extends Hero {
      * set the maximum hp with the level update.
      */
     public void setHPmax() {
-        hpmax += common.Constants.EXTRA_HP_WIZARD;
-        hp = hpmax;
-        hpCurrent = hpmax;
+        hpMax += common.Constants.EXTRA_HP_WIZARD;
+        hp = hpMax;
+        hpCurrent = hpMax;
+    }
+    public void setTheStrategy(){
+        if(1f/4 * getHpMax() < hpCurrent && hpCurrent < 1f/2 * getHpMax()) {
+            strategy = new OffensiveWizardStrategy();
+            strategy.changecoef(this);
+        } else if ( hpCurrent <= 1f/4 * getHpMax()) {
+            strategy = new DefensiveWizardStrategy();
+            strategy.changecoef(this);
+        }
     }
 }

@@ -3,6 +3,8 @@ package heroes;
 import abilities.Visitor;
 import common.Constants;
 import abilities.AbilitiesFactory;
+import strategies.DefensiveKnightStrategy;
+import strategies.OffensiveKnightStrategy;
 
 
 public class Knight extends Hero {
@@ -15,7 +17,7 @@ public class Knight extends Hero {
         this.freeze = false;
         this.death = false;
         this.hpCurrent = Constants.HP_KNIGHT;
-        this.hpmax = Constants.HP_KNIGHT;
+        this.hpMax = Constants.HP_KNIGHT;
     }
 
     /**
@@ -30,8 +32,17 @@ public class Knight extends Hero {
      * set the maximum hp with the level update.
      */
     public void setHPmax() {
-        hpmax += common.Constants.EXTRA_HP_KNIGHT;
-        hp = hpmax;
-        hpCurrent = hpmax;
+        hpMax += common.Constants.EXTRA_HP_KNIGHT;
+        hp = hpMax;
+        hpCurrent = hpMax;
+    }
+    public void setTheStrategy() {
+        if(1f/3 * getHpMax() < hpCurrent && hpCurrent < 1f/2* getHpMax()) {
+           strategy = new OffensiveKnightStrategy();
+            strategy.changecoef(this);
+        } else if (hpCurrent <= 1f/3 * getHpMax()) {
+            strategy = new DefensiveKnightStrategy();
+            strategy.changecoef(this);
+        }
     }
 }

@@ -2,6 +2,7 @@ package heroes;
 
 import abilities.Abilities;
 import common.Constants;
+import strategies.Strategy;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public abstract class Hero implements Visitable {
     protected String type;
     protected int level = 0;
     protected int xp = 0;
-    protected int hpmax;
+    protected int hpMax;
     protected int hp;
     protected int damageRec;
     protected ArrayList<Abilities> abilities;
@@ -20,6 +21,7 @@ public abstract class Hero implements Visitable {
     protected boolean freeze;
     protected boolean death;
     protected int hpCurrent;
+    protected Strategy strategy;
 
     /**
      * function in which each player moves properly on the map if it is not frozen.
@@ -172,6 +174,10 @@ public abstract class Hero implements Visitable {
             updatelevel();
     }
 
+    public void setStrategy(strategies.Strategy strategy) {
+        this.strategy = strategy;
+    }
+
     /***
      * updates the hero level after each fight if he has enough Xp.
      */
@@ -227,8 +233,7 @@ public abstract class Hero implements Visitable {
     /**
      * @return - the hp max at the level current
      */
-    public int getHpmax() {
-        return hpmax;
+    public int getHpMax() {
+        return hpMax;
     }
-
 }

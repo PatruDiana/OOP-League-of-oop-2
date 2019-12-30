@@ -27,7 +27,7 @@ public class Execute extends  Abilities implements Visitor {
      * @param p - a Pyromancer-type hero.
      */
     public void visit(final Pyromancer p) {
-        float hpLimit = damageprocent * p.getHpmax();
+        float hpLimit = damageprocent * p.getHpMax();
         int limit = Math.round(hpLimit);
         // checking the minimum life for fighting
         if (p.getHp() < limit) {
@@ -36,7 +36,7 @@ public class Execute extends  Abilities implements Visitor {
             float dmg = damage;
             float landBonus = landModificator;
             // applying the lang type bonus
-            if (map.Map.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.LAND_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.LAND_TYPE) {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
@@ -53,7 +53,7 @@ public class Execute extends  Abilities implements Visitor {
      * @param k - a Knight-type hero.
      */
     public void visit(final Knight k) {
-        float hpLimit = damageprocent * k.getHpmax();
+        float hpLimit = damageprocent * k.getHpMax();
         int limit = Math.round(hpLimit);
         // checking the minimum life for fighting
         if (k.getHp() < limit) {
@@ -62,7 +62,7 @@ public class Execute extends  Abilities implements Visitor {
             float dmg = damage;
             float landBonus = landModificator;
             // applying the lang type bonus
-            if (map.Map.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.LAND_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.LAND_TYPE) {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
@@ -79,7 +79,7 @@ public class Execute extends  Abilities implements Visitor {
      * @param r - a Rogue-type hero.
      */
     public void visit(final Rogue r) {
-        float hpLimit = damageprocent * r.getHpmax();
+        float hpLimit = damageprocent * r.getHpMax();
         int limit = Math.round(hpLimit);
         // checking the minimum life for fighting
         if (r.getHp() < limit) {
@@ -88,7 +88,7 @@ public class Execute extends  Abilities implements Visitor {
             float dmg = damage;
             float landBonus = landModificator;
             // applying the lang type bonus
-            if (map.Map.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.LAND_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.LAND_TYPE) {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
@@ -105,7 +105,7 @@ public class Execute extends  Abilities implements Visitor {
      * @param w - a Wizard-type hero.
      */
     public void visit(final Wizard w) {
-        float hpLimit = damageprocent * w.getHpmax();
+        float hpLimit = damageprocent * w.getHpMax();
         int limit = Math.round(hpLimit);
         // checking the minimum life for fighting
         if (w.getHp() < limit) {
@@ -114,7 +114,7 @@ public class Execute extends  Abilities implements Visitor {
             float dmg = damage;
             float landBonus = landModificator;
             // applying the lang type bonus
-            if (map.Map.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.LAND_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.LAND_TYPE) {
                 landBonus += Constants.LAND_BONUS;
             }
             dmg = dmg * landBonus;
