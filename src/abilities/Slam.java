@@ -25,18 +25,34 @@ public class Slam extends Abilities implements Visitor {
 
     @Override
     public void setCoefOffensive(float coef) {
-        SlamKnight += coef;
-        SlamPyromancer += coef;
-        SlamRogue += coef;
-        SlamWizard += coef;
+        if (SlamKnight != 1) {
+            SlamKnight += coef;
+        }
+        if (SlamPyromancer != 1) {
+            SlamPyromancer += coef;
+        }
+        if (SlamRogue != 1) {
+            SlamRogue += coef;
+        }
+        if (SlamWizard != 1) {
+            SlamWizard += coef;
+        }
     }
 
     @Override
     public void setCoefDefensive(float coef) {
-        SlamKnight -= coef;
-        SlamPyromancer -= coef;
-        SlamRogue -= coef;
-        SlamWizard -= coef;
+        if (SlamKnight != 1) {
+            SlamKnight -= coef;
+        }
+        if (SlamPyromancer != 1) {
+            SlamPyromancer -= coef;
+        }
+        if (SlamRogue != 1) {
+            SlamRogue -= coef;
+        }
+        if (SlamWizard != 1) {
+            SlamWizard -= coef;
+        }
     }
 
     /**

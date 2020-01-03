@@ -29,12 +29,12 @@ public class XpAngel extends Angel implements VisitAngel {
     public void visit(Wizard w) {
         w.increaseXp(60);
     }
+    public String getName() {
+        return "XPAngel";
+    }
 
     @Override
-    public String toString() {
-        return "XpAngel: " + coodx + ", " + coordy;
-    }
-    public String getName() {
-        return "XpAngel";
+    public String actionangel(heroes.Hero hero) {
+        return getName()+ " helped " + hero.getName() + " "+ hero.getIndex();
     }
 }

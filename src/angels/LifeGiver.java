@@ -12,29 +12,30 @@ public class LifeGiver extends Angel implements VisitAngel {
 
     @Override
     public void visit(Pyromancer p) {
-        p.setHpCurrentStrategy(p.getHpCurrent() + 80);
+        p.setHpCurrentStrategy(Math.min(p.getHpCurrent() + 80, p.getHpMax()));
     }
 
     @Override
     public void visit(Knight k) {
-        k.setHpCurrentStrategy(k.getHpCurrent() + 100);
+        k.setHpCurrentStrategy(Math.min(k.getHpCurrent() + 100, k.getHpMax()));
     }
 
     @Override
     public void visit(Rogue r) {
-        r.setHpCurrentStrategy(r.getHpCurrent() + 90);
+        r.setHpCurrentStrategy(Math.min(r.getHpCurrent() + 90, r.getHpMax()));
     }
 
     @Override
     public void visit(Wizard w) {
-        w.setHpCurrentStrategy(w.getHpCurrent() + 120);
+        w.setHpCurrentStrategy(Math.min(w.getHpCurrent() + 120, w.getHpMax()));
+    }
+
+    public String getName() {
+        return "LifeGiver";
     }
 
     @Override
-    public String toString() {
-        return "LifeGiver: " + coodx + ", " + coordy;
-    }
-    public String getName() {
-        return "LifeGiver";
+    public String actionangel(heroes.Hero hero) {
+        return getName()+ " helped " + hero.getName() + " "+  hero.getIndex();
     }
 }

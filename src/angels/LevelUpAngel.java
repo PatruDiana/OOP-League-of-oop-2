@@ -53,11 +53,12 @@ public class LevelUpAngel extends Angel implements VisitAngel {
         w.increaseXp(XpLevelUp - w.getXp());
     }
 
-    @Override
-    public String toString() {
-        return "LevelUpAngel: " + coodx + ", " + coordy;
-    }
     public String getName() {
         return "LevelUpAngel";
+    }
+
+    @Override
+    public String actionangel(heroes.Hero hero) {
+        return getName()+ " helped " + hero.getName() + " "+ hero.getIndex();
     }
 }

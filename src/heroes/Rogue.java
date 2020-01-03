@@ -8,7 +8,7 @@ import strategies.OffensiveRogueStrategy;
 
 
 public class Rogue extends Hero {
-    Rogue(final int row, final int col) {
+    Rogue(final int row, final int col, final int index) {
         this.row = row;
         this.col = col;
         this.hp = Constants.HP_ROQUE;
@@ -18,6 +18,8 @@ public class Rogue extends Hero {
         this.death = false;
         this.hpCurrent = Constants.HP_ROQUE;
         this.hpMax = Constants.HP_ROQUE;
+        this.index = index;
+        this.levelup = false;
     }
 
     /**
@@ -46,5 +48,15 @@ public class Rogue extends Hero {
             strategy = new DefensiveRogueStrategy();
             strategy.changecoef(this);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "Rogue";
+    }
+
+    @Override
+    public void acceptangel(angels.VisitAngel a) {
+        a.visit(this);
     }
 }

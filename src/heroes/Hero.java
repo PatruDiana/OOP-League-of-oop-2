@@ -6,7 +6,7 @@ import strategies.Strategy;
 
 import java.util.ArrayList;
 
-public abstract class Hero implements Visitable {
+public abstract class Hero implements Visitable, angels.VisitableAngel {
     protected int row;
     protected int col;
     protected String type;
@@ -22,7 +22,9 @@ public abstract class Hero implements Visitable {
     protected boolean death;
     protected int hpCurrent;
     protected Strategy strategy;
-
+    protected int index;
+    protected java.util.List<magician.Observer> observer = new java.util.ArrayList<>();
+    protected boolean levelup;
     /**
      * function in which each player moves properly on the map if it is not frozen.
      * @param move - the movement he must perform.
@@ -42,7 +44,9 @@ public abstract class Hero implements Visitable {
             }
         }
     }
-
+    public boolean getDeath() {
+        return death;
+    }
     /**
      * @return the coordinate of the column in which it is at the given moment.
      */
@@ -143,6 +147,7 @@ public abstract class Hero implements Visitable {
      */
     public void fight(final ArrayList<Abilities> a) {
         for (int i = 0; i < a.size(); i++) {
+
             accept(a.get(i));
         }
     }
@@ -168,7 +173,7 @@ public abstract class Hero implements Visitable {
     public void setDeath() {
         this.death = true;
     }
-
+    public void setAlive() {this.death = false; }
     /**
      * updating the XP when the player wins a fight.
      * @param lvl - the level of loser hero.
@@ -176,6 +181,15 @@ public abstract class Hero implements Visitable {
     public void setXp(final int lvl) {
             xp += Math.max(0, Constants.MAX_XP - (level - lvl) * Constants.MULTIPLIER_XP);
             updatelevel();
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void increaseXp(final int xp) {
+        this.xp += xp;
+        updatelevel();
     }
 
     public void setStrategy(strategies.Strategy strategy) {
@@ -188,6 +202,7 @@ public abstract class Hero implements Visitable {
     public void updatelevel() {
         while (xp >= level * Constants.XP_UPDATE_LEVEL + Constants.XP_MIN_LEVEL) {
             level++;
+            levelup = true;
             // setting Hp to maximum
             setHPmax();
             // automatically update the base damage of each ability
@@ -241,4 +256,33 @@ public abstract class Hero implements Visitable {
         return hpMax;
     }
     public abstract void setTheStrategy();
+
+    public boolean isFreeze() {
+        return freeze;
+    }
+    public abstract String getName();
+    public String herodied() {
+        return observer.get(0).update();
+    }
+    public void addObservers(magician.Observer observer) {
+        this.observer.add(observer);
+    }
+
+    public boolean isLevelup() {
+        return levelup;
+    }
+
+    public void setLevelup(boolean levelup) {
+        this.levelup = levelup;
+    }
+    public String herolevelup() {
+        setLevelup(false);
+        return observer.get(1).update();
+    }
+    public int getIndex() {
+        return index;
+    }
+    public String isdeadbyangel() {
+        return observer.get(2).update();
+    }
 }

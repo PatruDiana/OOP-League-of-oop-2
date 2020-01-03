@@ -8,7 +8,7 @@ import strategies.OffensiveWizardStrategy;
 
 
 public class Wizard extends Hero {
-    Wizard(final int row, final int col) {
+    Wizard(final int row, final int col, final int index) {
         this.row = row;
         this.col = col;
         this.hp = Constants.HP_WIZARD;
@@ -18,6 +18,8 @@ public class Wizard extends Hero {
         this.death = false;
         this.hpCurrent = Constants.HP_WIZARD;
         this.hpMax = Constants.HP_WIZARD;
+        this.index = index;
+        this.levelup = false;
     }
 
     /**
@@ -44,5 +46,15 @@ public class Wizard extends Hero {
             strategy = new DefensiveWizardStrategy();
             strategy.changecoef(this);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "Wizard";
+    }
+
+    @Override
+    public void acceptangel(angels.VisitAngel a) {
+        a.visit(this);
     }
 }

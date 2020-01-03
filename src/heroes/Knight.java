@@ -8,7 +8,7 @@ import strategies.OffensiveKnightStrategy;
 
 
 public class Knight extends Hero {
-    Knight(final int row, final int col) {
+    Knight(final int row, final int col, final int index) {
         this.row = row;
         this.col = col;
         this.hp = Constants.HP_KNIGHT;
@@ -18,6 +18,8 @@ public class Knight extends Hero {
         this.death = false;
         this.hpCurrent = Constants.HP_KNIGHT;
         this.hpMax = Constants.HP_KNIGHT;
+        this.index = index;
+        this.levelup = false;
     }
 
     /**
@@ -46,5 +48,14 @@ public class Knight extends Hero {
             strategy = new DefensiveKnightStrategy();
             strategy.changecoef(this);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "Knight";
+    }
+
+    public void acceptangel(angels.VisitAngel a) {
+            a.visit(this);
     }
 }

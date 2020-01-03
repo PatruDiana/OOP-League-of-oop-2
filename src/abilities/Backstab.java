@@ -28,18 +28,35 @@ public class Backstab extends Abilities implements Visitor {
 
     @Override
     public void setCoefOffensive(float coef) {
-        BackstabKnight += coef;
-        BackstabPyromancer += coef;
-        BackstabRogue += coef;
-        BackstabWizard += coef;
+       if (BackstabKnight != 1) {
+           BackstabKnight += coef;
+       }
+       if (BackstabPyromancer != 1) {
+           BackstabPyromancer += coef;
+       }
+       if (BackstabRogue != 1) {
+           BackstabRogue += coef;
+       }
+       if (BackstabWizard != 1) {
+           BackstabWizard += coef;
+       }
+
     }
 
     @Override
     public void setCoefDefensive(float coef) {
-        BackstabKnight -= coef;
-        BackstabPyromancer -= coef;
-        BackstabRogue -= coef;
-        BackstabWizard -= coef;
+        if (BackstabKnight != 1) {
+            BackstabKnight -= coef;
+        }
+        if (BackstabPyromancer != 1) {
+            BackstabPyromancer -= coef;
+        }
+        if (BackstabRogue != 1) {
+            BackstabRogue -= coef;
+        }
+        if (BackstabWizard != 1) {
+            BackstabWizard -= coef;
+        }
     }
 
     /**

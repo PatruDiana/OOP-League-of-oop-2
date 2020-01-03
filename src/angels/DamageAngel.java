@@ -37,12 +37,12 @@ public class DamageAngel extends Angel implements VisitAngel {
             w.getAbilities().get(i).setCoefOffensive(0.4f);
         }
     }
-
-    @Override
-    public String toString() {
-        return "DamageAngel: " + coodx + ", " + coordy;
-    }
     public String getName() {
         return "DamageAngel";
+    }
+
+    @Override
+    public String actionangel(heroes.Hero hero) {
+        return getName() + " helped " + hero.getName() + " "+  hero.getIndex();
     }
 }

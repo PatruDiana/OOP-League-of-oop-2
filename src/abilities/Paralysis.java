@@ -25,18 +25,34 @@ public class Paralysis extends Abilities implements Visitor {
 
     @Override
     public void setCoefOffensive(float coef) {
-        ParalysisKnight += coef;
-        ParalysisPyromancer += coef;
-        ParalysisRogue += coef;
-        ParalysisWizard += coef;
+        if (ParalysisKnight != 1) {
+            ParalysisKnight += coef;
+        }
+        if (ParalysisPyromancer != 1) {
+            ParalysisPyromancer += coef;
+        }
+        if (ParalysisRogue != 1) {
+            ParalysisRogue += coef;
+        }
+        if (ParalysisWizard != 1) {
+            ParalysisWizard += coef;
+        }
     }
 
     @Override
     public void setCoefDefensive(float coef) {
-        ParalysisKnight -= coef;
-        ParalysisPyromancer -= coef;
-        ParalysisRogue -= coef;
-        ParalysisWizard -= coef;
+        if (ParalysisKnight != 1) {
+            ParalysisKnight -= coef;
+        }
+        if (ParalysisPyromancer != 1) {
+            ParalysisPyromancer -= coef;
+        }
+        if (ParalysisRogue != 1) {
+            ParalysisRogue -= coef;
+        }
+        if (ParalysisWizard != 1) {
+            ParalysisWizard -= coef;
+        }
     }
 
     /**

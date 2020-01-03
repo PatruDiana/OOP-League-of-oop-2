@@ -33,16 +33,31 @@ public class Deflect extends Abilities implements Visitor {
 
     @Override
     public void setCoefOffensive(float coef) {
-        DeflectKnight += coef;
-        DeflectPyromancer += coef;
-        DeflectRogue += coef;
+        if (DeflectRogue != 1 ) {
+            DeflectRogue += coef;
+        }
+        if (DeflectKnight != 1 ) {
+            DeflectKnight += coef;
+        }
+        if (DeflectPyromancer != 1) {
+            DeflectPyromancer += coef;
+        }
+
     }
 
     @Override
     public void setCoefDefensive(float coef) {
-        DeflectKnight -= coef;
-        DeflectPyromancer -= coef;
-        DeflectRogue -= coef;
+        if (DeflectRogue != 1 ) {
+            DeflectRogue -= coef;
+
+        }
+        if (DeflectKnight != 1 ) {
+            DeflectKnight -= coef;
+
+        }
+        if (DeflectPyromancer != 1) {
+            DeflectPyromancer -= coef;
+        }
     }
 
     /**
@@ -57,11 +72,9 @@ public class Deflect extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
-        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        float damagelandrace = damageland * DeflectPyromancer;
-        int dmglandrace = Math.round(damagelandrace);
-        float dmg = dmglandrace * damage;
+        float damagelandrace = dmgpercent * DeflectPyromancer;
+        float dmg = damagelandrace * damage;
         int result = Math.round(dmg);
         System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp
@@ -80,11 +93,9 @@ public class Deflect extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
-        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        float damagelandrace = damageland * DeflectKnight;
-        int dmglandrace = Math.round(damagelandrace);
-        float dmg = dmglandrace * damage;
+        float damagelandrace = dmgpercent * DeflectKnight;
+        float dmg = damagelandrace * damage;
         int result = Math.round(dmg);
         System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp
@@ -103,11 +114,9 @@ public class Deflect extends Abilities implements Visitor {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
-        int damageland = Math.round(dmgpercent);
         // applying the race modifier
-        float damagelandrace = damageland * DeflectRogue;
-        int dmglandrace = Math.round(damagelandrace);
-        float dmg = dmglandrace * damage;
+        float damagelandrace = dmgpercent * DeflectRogue;
+        float dmg =  damagelandrace * damage;
         int result = Math.round(dmg);
         System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp

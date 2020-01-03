@@ -15,7 +15,7 @@ public class GoodBoy extends Angel implements VisitAngel {
         for(int i = 0; i < p.getAbilities().size(); i++) {
             p.getAbilities().get(i).setCoefOffensive(0.5f);
         }
-        p.setHpCurrentStrategy(p.getHpCurrent() + 30);
+        p.setHpCurrentStrategy(Math.min(p.getHpCurrent() + 30, p.getHpMax()));
     }
 
     @Override
@@ -23,7 +23,7 @@ public class GoodBoy extends Angel implements VisitAngel {
         for(int i = 0; i < k.getAbilities().size(); i++) {
             k.getAbilities().get(i).setCoefOffensive(0.4f);
         }
-        k.setHpCurrentStrategy(k.getHpCurrent() + 20);
+        k.setHpCurrentStrategy(Math.min(k.getHpCurrent() + 20, k.getHpMax()));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class GoodBoy extends Angel implements VisitAngel {
         for (int i = 0; i < r.getAbilities().size(); i++) {
             r.getAbilities().get(i).setCoefOffensive(0.4f);
         }
-        r.setHpCurrentStrategy(r.getHpCurrent() + 40);
+        r.setHpCurrentStrategy(Math.min(r.getHpCurrent() + 40, r.getHpMax()));
     }
 
     @Override
@@ -39,14 +39,14 @@ public class GoodBoy extends Angel implements VisitAngel {
         for (int i = 0; i < w.getAbilities().size(); i++) {
             w.getAbilities().get(i).setCoefOffensive(0.3f);
         }
-        w.setHpCurrentStrategy(w.getHpCurrent() + 50);
-    }
-
-    @Override
-    public String toString() {
-        return "GoodBoy: " + coodx + ", " + coordy;
+        w.setHpCurrentStrategy(Math.min(w.getHpCurrent() + 50, w.getHpMax()));
     }
     public String getName() {
         return "GoodBoy";
+    }
+
+    @Override
+    public String actionangel(heroes.Hero hero) {
+        return getName() + " helped " + hero.getName() + " "+ hero.getIndex();
     }
 }

@@ -30,11 +30,12 @@ public class TheDoomer extends Angel implements VisitAngel {
         w.setDeath();
     }
 
-    @Override
-    public String toString() {
-        return "TheDoomer: " + coodx + ", " + coordy;
-    }
     public String getName() {
         return "TheDoomer";
+    }
+
+    @Override
+    public String actionangel(heroes.Hero hero) {
+        return getName()+ " hit " + hero.getName() + " "+ hero.getIndex();
     }
 }

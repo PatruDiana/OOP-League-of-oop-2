@@ -42,11 +42,12 @@ public class Dracula extends Angel implements VisitAngel {
         w.setHpCurrent(20);
     }
 
-    @Override
-    public String toString() {
-        return "Dracula: " + coodx + ", " + coordy;
-    }
     public String getName() {
         return "Dracula";
+    }
+
+    @Override
+    public String actionangel(heroes.Hero hero) {
+        return getName() + " hit " + hero.getName() + " "+ hero.getIndex();
     }
 }

@@ -34,11 +34,12 @@ public class Spawner extends Angel implements VisitAngel {
         w.setHpCurrentStrategy(120);
     }
 
-    @Override
-    public String toString() {
-        return "Spawner: " + coodx + ", " + coordy;
-    }
     public String getName() {
         return "Spawner";
+    }
+
+    @Override
+    public String actionangel(heroes.Hero hero) {
+        return getName()+" helped " + hero.getName() + " "+  hero.getIndex();
     }
 }

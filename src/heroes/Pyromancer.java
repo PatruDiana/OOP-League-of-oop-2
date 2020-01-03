@@ -7,7 +7,7 @@ import strategies.DefensivePyromancerStrategy;
 import strategies.OffensivePyromancerStrategy;
 
 public class Pyromancer extends Hero {
-    Pyromancer(final int row, final int col) {
+    Pyromancer(final int row, final int col, final int index) {
         this.row = row;
         this.col = col;
         this.hp = Constants.HP_PYROMANCER;
@@ -17,6 +17,8 @@ public class Pyromancer extends Hero {
         this.death = false;
         this.hpCurrent = Constants.HP_PYROMANCER;
         this.hpMax = Constants.HP_PYROMANCER;
+        this.index = index;
+        this.levelup = false;
     }
 
 
@@ -44,5 +46,14 @@ public class Pyromancer extends Hero {
             strategy = new DefensivePyromancerStrategy();
             strategy.changecoef(this);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "Pyromancer";
+    }
+    @Override
+    public void acceptangel(angels.VisitAngel a) {
+        a.visit(this);
     }
 }

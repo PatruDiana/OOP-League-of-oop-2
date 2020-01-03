@@ -27,18 +27,34 @@ public class Ignite extends Abilities implements Visitor {
 
     @Override
     public void setCoefOffensive(float coef) {
-        IgniteKnight += coef;
-        IgnitePyromancer += coef;
-        IgniteRogue += coef;
-        IgniteWizard += coef;
+        if (IgniteKnight != 1) {
+            IgniteKnight += coef;
+        }
+        if (IgnitePyromancer != 1) {
+            IgnitePyromancer += coef;
+        }
+        if (IgniteRogue != 1) {
+            IgniteRogue += coef;
+        }
+        if (IgniteWizard != 1) {
+            IgniteWizard += coef;
+        }
     }
 
     @Override
     public void setCoefDefensive(float coef) {
-        IgniteKnight -= coef;
-        IgnitePyromancer -= coef;
-        IgniteRogue -= coef;
-        IgniteWizard -= coef;
+        if (IgniteKnight != 1) {
+            IgniteKnight -= coef;
+        }
+        if (IgnitePyromancer != 1) {
+            IgnitePyromancer -= coef;
+        }
+        if (IgniteRogue != 1) {
+            IgniteRogue -= coef;
+        }
+        if (IgniteWizard != 1) {
+            IgniteWizard -= coef;
+        }
     }
 
     /**

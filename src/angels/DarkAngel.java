@@ -30,11 +30,12 @@ public class DarkAngel extends Angel implements VisitAngel {
         w.setHpCurrent(20);
     }
 
-    @Override
-    public String toString() {
-        return "DarkAngel: " + coodx + ", " + coordy;
-    }
     public String getName() {
         return "DarkAngel";
+    }
+
+    @Override
+    public String actionangel(heroes.Hero hero) {
+        return  getName() + " hit " + hero.getName() + " "+ hero.getIndex();
     }
 }

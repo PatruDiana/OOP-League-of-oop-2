@@ -14,18 +14,34 @@ public class Fireblast extends Abilities implements Visitor {
 
     @Override
     public void setCoefOffensive(float coef) {
-        FireblastKnight += coef;
-        FireblastPyromancer +=coef;
-        FireblastRogue += coef;
-        FireblastWizard +=coef;
+        if (FireblastKnight != 1) {
+            FireblastKnight += coef;
+        }
+        if (FireblastPyromancer != 1) {
+            FireblastPyromancer += coef;
+        }
+        if (FireblastRogue != 1) {
+            FireblastRogue += coef;
+        }
+        if (FireblastWizard != 1) {
+            FireblastWizard += coef;
+        }
     }
 
     @Override
     public void setCoefDefensive(float coef) {
-        FireblastKnight -= coef;
-        FireblastPyromancer -=coef;
-        FireblastRogue -= coef;
-        FireblastWizard -=coef;
+        if (FireblastKnight != 1) {
+            FireblastKnight -= coef;
+        }
+        if (FireblastPyromancer != 1) {
+            FireblastPyromancer -= coef;
+        }
+        if (FireblastRogue != 1) {
+            FireblastRogue -= coef;
+        }
+        if (FireblastWizard != 1) {
+            FireblastWizard -= coef;
+        }
     }
 
     Fireblast() {

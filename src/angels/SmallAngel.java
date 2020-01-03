@@ -15,7 +15,7 @@ public class SmallAngel extends Angel implements VisitAngel {
         for (int i = 0; i < p.getAbilities().size(); i++) {
             p.getAbilities().get(i).setCoefOffensive(0.15f);
         }
-        p.setHpCurrentStrategy(p.getHpCurrent() + 15);
+        p.setHpCurrentStrategy(Math.min(p.getHpCurrent() + 15, p.getHpMax()));
     }
 
     @Override
@@ -23,7 +23,9 @@ public class SmallAngel extends Angel implements VisitAngel {
         for (int i = 0; i < k.getAbilities().size(); i++) {
             k.getAbilities().get(i).setCoefOffensive(0.1f);
         }
-        k.setHpCurrentStrategy(k.getHpCurrent() + 10);
+        if (k.getHpCurrent() + 10 <= k.getHpMax()) {
+            k.setHpCurrentStrategy(k.getHpCurrent() + 10);
+        }
     }
 
     @Override
@@ -31,7 +33,7 @@ public class SmallAngel extends Angel implements VisitAngel {
         for (int i = 0 ; i < r.getAbilities().size(); i++) {
             r.getAbilities().get(i).setCoefOffensive(0.05f);
         }
-        r.setHpCurrentStrategy(r.getHpCurrent() + 20);
+        r.setHpCurrentStrategy(Math.min(r.getHpCurrent() + 20, r.getHpMax()));
     }
 
     @Override
@@ -39,14 +41,15 @@ public class SmallAngel extends Angel implements VisitAngel {
         for (int i = 0; i < w.getAbilities().size(); i++) {
             w.getAbilities().get(i).setCoefOffensive(0.1f);
         }
-        w.setHpCurrentStrategy(w.getHpCurrent() + 25);
+        w.setHpCurrentStrategy(Math.min(w.getHpCurrent() + 25, w.getHpMax()));
+    }
+
+    public String getName() {
+        return "SmallAngel";
     }
 
     @Override
-    public String toString() {
-        return "SmallAngel: " + coodx + ", " + coordy;
-    }
-    public String getName() {
-        return "SmallAngel";
+    public String actionangel(heroes.Hero hero) {
+        return getName() + " helped " + hero.getName() + " "+ hero.getIndex() ;
     }
 }

@@ -28,18 +28,35 @@ public class Execute extends  Abilities implements Visitor {
 
     @Override
     public void setCoefOffensive(float coef) {
-        ExecuteKnight += coef;
-        ExecutePyromancer += coef;
-        ExecuteRogue += coef;
-        ExecuteWizard += coef;
+        if (ExecuteKnight != 1 ) {
+            ExecuteKnight += coef;
+        }
+        if (ExecutePyromancer != 1) {
+            ExecutePyromancer += coef;
+        }
+        if (ExecuteRogue != 1 ) {
+            ExecuteRogue += coef;
+        }
+        if (ExecuteWizard != 1) {
+            ExecuteWizard += coef;
+        }
     }
 
     @Override
     public void setCoefDefensive(float coef) {
-        ExecuteKnight -= coef;
-        ExecutePyromancer -= coef;
-        ExecuteRogue -= coef;
-        ExecuteWizard -= coef;
+        if (ExecuteKnight != 1) {
+            ExecuteKnight -= coef;
+        }
+        if (ExecutePyromancer != 1) {
+            ExecutePyromancer -= coef;
+        }
+        if (ExecuteRogue != 1) {
+            ExecuteRogue -= coef;
+        }
+        if (ExecuteWizard != 1) {
+            ExecuteWizard -= coef;
+        }
+
     }
 
     /**
@@ -134,9 +151,9 @@ public class Execute extends  Abilities implements Visitor {
         float hpLimit = damageprocent * w.getHpMax();
         int limit = Math.round(hpLimit);
         // checking the minimum life for fighting
-        if (w.getHp() < limit) {
-            w.setHpCurrent(w.getHp());
-        } else {
+//        if (w.getHp() < limit) {
+//            w.setHpCurrent(w.getHp());
+//        } else {
             float dmg = damage;
             float landBonus = landModificator;
             // applying the lang type bonus
@@ -153,6 +170,6 @@ public class Execute extends  Abilities implements Visitor {
             System.out.println("Execute :"  + result);
             // decrease of the final damage from the opponent's hp
             w.setHpCurrent(result);
-        }
+//        }
     }
 }
