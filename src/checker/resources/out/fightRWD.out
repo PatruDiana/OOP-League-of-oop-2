@@ -7,8 +7,6 @@ Wizard 1 reached level 1
 
 ~~ Round 2 ~~
 Angel Spawner was spawned at 0 0
-Spawner helped Rogue 0
-Spawner helped Wizard 1
 Angel DamageAngel was spawned at 0 0
 DamageAngel helped Rogue 0
 DamageAngel helped Wizard 1
@@ -17,5 +15,5 @@ GoodBoy helped Rogue 0
 GoodBoy helped Wizard 1
 
 ~~ Results ~~
-R 1 250 220 0 0
-W 1 250 170 0 0
+R 1 250 474 0 0
+W 1 250 52 0 0

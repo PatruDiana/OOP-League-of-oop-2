@@ -55,12 +55,14 @@ public final class Game {
             magician.DieHerobyHero dieHerobyHero = new magician.DieHerobyHero();
             magician.LevelUpHero levelUpHero = new magician.LevelUpHero();
             magician.DieHerobyAngel dieHerobyAngel = new magician.DieHerobyAngel();
+            magician.AliveByAngel aliveByAngel = new magician.AliveByAngel();
             Hero hero = HeroFactory.getHero(playersinfo.get(i),
                     coordplayers.get(coord1), coordplayers.get(coord2), i);
             heroes.add(hero);
             dieHerobyHero.addhero(heroes.get(i));
             levelUpHero.addhero(heroes.get(i));
             dieHerobyAngel.addhero(heroes.get(i));
+            aliveByAngel.addhero(heroes.get(i));
             coord1 = coord1 + 2;
             coord2 = coord1 + 1;
         }
@@ -134,25 +136,32 @@ public final class Game {
                                 String string1 = heroes.get(k).herodied();
                                 fs.writeWord(string1 + heroes.get(j).getName() + " " + heroes.get(j).getIndex());
                                 fs.writeNewLine();
-                                int level = heroes.get(j).getLevel();
-                                heroes.get(j).setXp(heroes.get(k).getLevel());
-                                if (heroes.get(j).getLevel() > level) {
-                                   for (int m = level + 1; m <= heroes.get(j).getLevel(); m++) {
-                                       fs.writeWord(heroes.get(j).getName() + " " + heroes.get(j).getIndex() +
-                                               " reached level " + m);
-                                       fs.writeNewLine();
-                                   }
-                                }
+//                                heroes.get(j).setXp(heroes.get(k).getLevel());
+
                             }
                             if (heroes.get(j).isDeath()) {
                                 String string1 = heroes.get(j).herodied();
                                 fs.writeWord(string1 + heroes.get(k).getName() + " " + heroes.get(k).getIndex());
                                 fs.writeNewLine();
+//                                heroes.get(k).setXp(heroes.get(j).getLevel());
+
+                            }
+                            if (!heroes.get(k).isDeath() && heroes.get(j).isDeath()) {
                                 int level = heroes.get(k).getLevel();
                                 heroes.get(k).setXp(heroes.get(j).getLevel());
                                 if (heroes.get(k).getLevel() > level) {
                                     for (int m = level + 1; m <= heroes.get(k).getLevel(); m++) {
                                         fs.writeWord(heroes.get(k).getName() + " " + heroes.get(k).getIndex() +
+                                                " reached level " + m);
+                                        fs.writeNewLine();
+                                    }
+                                }
+                            } else if (heroes.get(k).isDeath() && !heroes.get(j).isDeath()) {
+                                int level = heroes.get(j).getLevel();
+                                heroes.get(j).setXp(heroes.get(k).getLevel());
+                                if (heroes.get(j).getLevel() > level) {
+                                    for (int m = level + 1; m <= heroes.get(j).getLevel(); m++) {
+                                        fs.writeWord(heroes.get(j).getName() + " " + heroes.get(j).getIndex() +
                                                 " reached level " + m);
                                         fs.writeNewLine();
                                     }
@@ -199,9 +208,19 @@ public final class Game {
                     if (hero.getRow() == angel.getCoodx() &&
                             hero.getCol() == angel.getCoordy()) {
                         if (!hero.getDeath() || angel.getName().equals("Spawner")) {
-                            fs.writeWord(angel.actionangel(hero));
-                            fs.writeNewLine();
-                            hero.acceptangel(angel);
+                            if(!angel.getName().equals("Spawner")) {
+                                fs.writeWord(angel.actionangel(hero));
+                                fs.writeNewLine();
+                                hero.acceptangel(angel);
+                            } else {
+                              if (hero.getDeath()) {
+                                  fs.writeWord(angel.actionangel(hero));
+                                  fs.writeNewLine();
+                                  hero.acceptangel(angel);
+                                  fs.writeWord(hero.alivebyangel());
+                                  fs.writeNewLine();
+                              }
+                            }
                             if (hero.isLevelup()) {
                                 fs.writeWord(hero.herolevelup());
                                 fs.writeNewLine();

@@ -12,6 +12,7 @@ public class Spawner extends Angel implements VisitAngel {
 
     @Override
     public void visit(Pyromancer p) {
+        System.out.println("Intra in Pyromancer");
         p.setAlive();
         p.setHpCurrentStrategy(150);
     }

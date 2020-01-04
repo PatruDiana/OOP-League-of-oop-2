@@ -5,7 +5,7 @@ public final class Main {
         //for checkstyle
     }
     public static void main(final String[] args) throws java.io.IOException {
-//        String input = "/home/diana/Desktop/leagueofoop2/src/checker/resources/in/fightKWW.in";
+//        String input = "/home/diana/Desktop/leagueofoop2/src/checker/resources/in/fightPRW.in";
 //        String output = "/home/diana/Desktop/output.out";
         GameInputLoader gameInputLoader = new GameInputLoader(args[0], args[1]);
 //        GameInputLoader gameInputLoader = new GameInputLoader(input, output);
@@ -18,9 +18,5 @@ public final class Main {
          game.startgame(args[0], args[1]);
          game.printboard(args[0], args[1]);
 //         game.printboard(input, output);
-    }
-
-    public static void main(String[] args) {
-
     }
 }

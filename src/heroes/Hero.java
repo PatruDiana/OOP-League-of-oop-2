@@ -79,6 +79,9 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
      */
     public void setHpCurrent(final int damage) {
         this.hpCurrent -= damage;
+        if (hpCurrent <=  0) {
+            setDeath();
+        }
     }
 
     /**
@@ -285,4 +288,5 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
     public String isdeadbyangel() {
         return observer.get(2).update();
     }
+    public String alivebyangel() {return observer.get(3).update();}
 }
