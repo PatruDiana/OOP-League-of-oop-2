@@ -7,13 +7,17 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Paralysis extends Abilities implements Visitor {
-    private float ParalysisRogue = 0.9f;
-    private float ParalysisKnight = 0.8f;
-    private float ParalysisPyromancer = 1.2f;
-    private float ParalysisWizard = 1.25f;
+    private float paralysisRogue;
+    private float paralysisKnight;
+    private float paralysisPyromancer;
+    private float paralysisWizard;
     public Paralysis() {
         damage = Constants.DAMAGE_PARALYSIS;
         nrRoundsOvertime = Constants.NR_ROUNDS_OVERTIME_MIN;
+        paralysisPyromancer = Constants.PYROMANCER_MODIFICATOR_P;
+        paralysisKnight = Constants.KNIGHT_MODIFICATOR_P;
+        paralysisRogue = Constants.ROGUE_MODIFICATOR_P;
+        paralysisWizard = Constants.WIZARD_MODIFICATOR_P;
     }
 
     /**
@@ -23,35 +27,43 @@ public class Paralysis extends Abilities implements Visitor {
         damage += Constants.EXTRA_DAMAGE_PARAYSIS;
     }
 
-    @Override
-    public void setCoefOffensive(float coef) {
-        if (ParalysisKnight != 1) {
-            ParalysisKnight += coef;
+    /**
+     * set the race modifiers if the player chooses the offensive strategy.
+     * @param percent - a percentage that will increase race coefficients.
+     */
+    public void setCoefOffensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (paralysisKnight != 1) {
+            paralysisKnight += percent;
         }
-        if (ParalysisPyromancer != 1) {
-            ParalysisPyromancer += coef;
+        if (paralysisPyromancer != 1) {
+            paralysisPyromancer += percent;
         }
-        if (ParalysisRogue != 1) {
-            ParalysisRogue += coef;
+        if (paralysisRogue != 1) {
+            paralysisRogue += percent;
         }
-        if (ParalysisWizard != 1) {
-            ParalysisWizard += coef;
+        if (paralysisWizard != 1) {
+            paralysisWizard += percent;
         }
     }
 
-    @Override
-    public void setCoefDefensive(float coef) {
-        if (ParalysisKnight != 1) {
-            ParalysisKnight -= coef;
+    /**
+     * set the race modifiers if the player chooses the defensive strategy.
+     * @param percent - a percentage that will reduce race coefficients.
+     */
+    public void setCoefDefensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (paralysisKnight != 1) {
+            paralysisKnight -= percent;
         }
-        if (ParalysisPyromancer != 1) {
-            ParalysisPyromancer -= coef;
+        if (paralysisPyromancer != 1) {
+            paralysisPyromancer -= percent;
         }
-        if (ParalysisRogue != 1) {
-            ParalysisRogue -= coef;
+        if (paralysisRogue != 1) {
+            paralysisRogue -= percent;
         }
-        if (ParalysisWizard != 1) {
-            ParalysisWizard -= coef;
+        if (paralysisWizard != 1) {
+            paralysisWizard -= percent;
         }
     }
 
@@ -63,19 +75,20 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = damageland * ParalysisPyromancer;
+        float damagelandrace = damageland * paralysisPyromancer;
         int result = Math.round(damagelandrace);
-        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
         // set the damage overtime
-        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol())
+                == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             p.setDamageOvertime(result, nrRounds, true);
         } else {
@@ -91,19 +104,20 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = damageland * ParalysisKnight;
+        float damagelandrace = damageland * paralysisKnight;
         int result = Math.round(damagelandrace);
-        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
         // set the damage overtime
-        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol())
+                == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             k.setDamageOvertime(result, nrRounds, true);
         } else {
@@ -120,19 +134,20 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = damageland * ParalysisRogue;
+        float damagelandrace = damageland * paralysisRogue;
         int result = Math.round(damagelandrace);
-        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
         // set the damage overtime
-        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol())
+                == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             r.setDamageOvertime(result, nrRounds, true);
         } else {
@@ -149,7 +164,8 @@ public class Paralysis extends Abilities implements Visitor {
         float dmg = damage;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += common.Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
@@ -157,13 +173,13 @@ public class Paralysis extends Abilities implements Visitor {
         // setting the damage received without the race modifier for the wizard hero
         w.setDamageRec(damageland);
         // applying the race modifier
-        float damagelandrace = damageland * ParalysisWizard;
+        float damagelandrace = damageland * paralysisWizard;
         int result = Math.round(damagelandrace);
-        System.out.println("Paralysis: " + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
         // set the damage overtime
-        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol())
+                == Constants.WOODS_TYPE) {
             int nrRounds = Constants.NR_ROUNDS_OVERTIME_MAX;
             w.setDamageOvertime(result, nrRounds, true);
         } else {

@@ -7,58 +7,74 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class LevelUpAngel extends Angel implements VisitAngel {
-    public LevelUpAngel(int coodx, int coordy) {
+    public LevelUpAngel(final int coodx, final int coordy) {
         super(coodx, coordy);
     }
 
-    @Override
-    public void visit(Pyromancer p) {
-        for (int i = 0 ; i < p.getAbilities().size(); i++) {
-            p.getAbilities().get(i).setCoefOffensive(0.2f);
+    /**
+     * applying the LeveUpAngel angel to the Pyromancer hero type.
+     * @param p - a Pyromancer-type hero.
+     */
+    public void visit(final Pyromancer p) {
+        for (int i = 0; i < p.getAbilities().size(); i++) {
+            p.getAbilities().get(i).setCoefOffensive(Constants.PYROMANCER_LEVELUPANGEL_OFF);
         }
         int levelup = p.getLevel();
-       // System.out.println("Levelup -> " + levelup);
-        int XpLevelUp = Constants.XP_MIN_LEVEL + levelup* Constants.XP_UPDATE_LEVEL;
-       // System.out.println("XpLevelUp -> " + XpLevelUp);
-        p.increaseXp(XpLevelUp - p.getXp());
+        int xpLevelUp = Constants.XP_MIN_LEVEL + levelup * Constants.XP_UPDATE_LEVEL;
+        p.increaseXp(xpLevelUp - p.getXp());
     }
 
-    @Override
-    public void visit(Knight k) {
-        for(int i = 0; i < k.getAbilities().size(); i++) {
-            k.getAbilities().get(i).setCoefOffensive(0.1f);
+    /**
+     * applying the LeveUpAngel angel to the Knight hero type.
+     * @param k - a Knight-type hero.
+     */
+    public void visit(final Knight k) {
+        for (int i = 0; i < k.getAbilities().size(); i++) {
+            k.getAbilities().get(i).setCoefOffensive(Constants.KNIGHT_LEVELUPANGEL_OFF);
         }
         int levelup = k.getLevel();
-        int XpLevelUp = Constants.XP_MIN_LEVEL + levelup* Constants.XP_UPDATE_LEVEL;
-        k.increaseXp(XpLevelUp - k.getXp());
+        int xpLevelUp = Constants.XP_MIN_LEVEL + levelup * Constants.XP_UPDATE_LEVEL;
+        k.increaseXp(xpLevelUp - k.getXp());
     }
 
-    @Override
-    public void visit(Rogue r) {
+    /**
+     * applying the LeveUpAngel angel to the Rogue hero type.
+     * @param r - a Rogue-type hero.
+     */
+    public void visit(final Rogue r) {
         for (int i = 0; i < r.getAbilities().size(); i++) {
-            r.getAbilities().get(i).setCoefOffensive(0.15f);
+            r.getAbilities().get(i).setCoefOffensive(Constants.ROGUE_LEVELUPANGEL_OFF);
         }
         int levelup = r.getLevel();
-        int XpLevelUp = Constants.XP_MIN_LEVEL + levelup* Constants.XP_UPDATE_LEVEL;
-        r.increaseXp(XpLevelUp - r.getXp());
+        int xpLevelUp = Constants.XP_MIN_LEVEL + levelup * Constants.XP_UPDATE_LEVEL;
+        r.increaseXp(xpLevelUp - r.getXp());
     }
 
-    @Override
-    public void visit(Wizard w) {
+    /**
+     * applying the LeveUpAngel angel to the Wizard hero type.
+     * @param w - a Wizard-type hero.
+     */
+    public void visit(final Wizard w) {
         for (int i = 0; i < w.getAbilities().size(); i++) {
-            w.getAbilities().get(i).setCoefOffensive(0.25f);
+            w.getAbilities().get(i).setCoefOffensive(Constants.WIZARD_LEVELUPANGEL_OFF);
         }
         int levelup = w.getLevel();
-        int XpLevelUp = Constants.XP_MIN_LEVEL + levelup* Constants.XP_UPDATE_LEVEL;
-        w.increaseXp(XpLevelUp - w.getXp());
+        int xpLevelUp = Constants.XP_MIN_LEVEL + levelup * Constants.XP_UPDATE_LEVEL;
+        w.increaseXp(xpLevelUp - w.getXp());
     }
 
+    /**
+     * @return the name of the angel.
+     */
     public String getName() {
         return "LevelUpAngel";
     }
 
-    @Override
-    public String actionangel(heroes.Hero hero) {
-        return getName()+ " helped " + hero.getName() + " "+ hero.getIndex();
+    /**
+     * @param hero - the current hero the angel helps.
+     * @return the String for output file with the appropiate message when an angel helps a hero.
+     */
+    public String actionangel(final heroes.Hero hero) {
+        return getName() + " helped " + hero.getName() + " " + hero.getIndex();
     }
 }

@@ -44,6 +44,10 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
             }
         }
     }
+
+    /**
+     * @return if the player si death or not.
+     */
     public boolean getDeath() {
         return death;
     }
@@ -69,6 +73,9 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
         return this.abilities;
     }
 
+    /**
+     * @param life - set the current hp after strategy.
+     */
     public void setHpCurrentStrategy(final int life) {
         this.hpCurrent = life;
     }
@@ -176,7 +183,13 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
     public void setDeath() {
         this.death = true;
     }
-    public void setAlive() {this.death = false; }
+
+    /**
+     * set the player alive.
+     */
+    public void setAlive() {
+        this.death = false;
+    }
     /**
      * updating the XP when the player wins a fight.
      * @param lvl - the level of loser hero.
@@ -186,16 +199,27 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
             updatelevel();
     }
 
+    /**
+     * @return the player's xp.
+     */
     public int getXp() {
         return xp;
     }
 
-    public void increaseXp(final int xp) {
-        this.xp += xp;
+    /**
+     * increase the xp after angel's action.
+     * @param exp - the value with which xp is increased.
+     */
+    public void increaseXp(final int exp) {
+        this.xp += exp;
         updatelevel();
     }
 
-    public void setStrategy(strategies.Strategy strategy) {
+    /**
+     * set the player's strategy.
+     * @param strategy - the strategy chosen.
+     */
+    public void setStrategy(final strategies.Strategy strategy) {
         this.strategy = strategy;
     }
 
@@ -260,36 +284,77 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
     }
     public abstract void setTheStrategy();
 
+    /**
+     * @return if the player is frozen or not.
+     */
     public boolean isFreeze() {
         return freeze;
     }
     public abstract String getName();
+
+    /**
+     * @return the String for output file with the appropiate message when a hero dies.
+     */
     public String herodied() {
         return observer.get(0).update();
     }
-    public void addObservers(magician.Observer observer) {
-        this.observer.add(observer);
+
+    /**
+     * add one observer at the list with observers.
+     * @param oneobserver - one of the observers.
+     */
+    public void addObservers(final magician.Observer oneobserver) {
+        this.observer.add(oneobserver);
     }
 
+    /**
+     * @return if the player levels up.
+     */
     public boolean isLevelup() {
         return levelup;
     }
 
-    public void setLevelup(boolean levelup) {
-        this.levelup = levelup;
+    /**
+     * set true or false if the player levels up.
+     * @param lvl - true or false.
+     */
+    public void setLevelup(final boolean lvl) {
+        this.levelup = lvl;
     }
+
+    /**
+     * @return the String for output file with the appropiate message when a hero levels up.
+     */
     public String herolevelup() {
         setLevelup(false);
         return observer.get(1).update();
     }
+
+    /**
+     * @return the player's index.
+     */
     public int getIndex() {
         return index;
     }
+
+    /**
+     * @return the String for output file with the appropiate message when a hero dies by an angel.
+     */
     public String isdeadbyangel() {
         return observer.get(2).update();
     }
-    public String alivebyangel() {return observer.get(3).update();}
 
+    /**
+     * @return the String for output file with the appropiate message when a hero is
+     * alive by an angel.
+     */
+    public String alivebyangel() {
+        return observer.get(Constants.OBSERVER_ALIVEBYANGEL).update();
+    }
+
+    /**
+     * verify is the player has more rounds of freeze.
+     */
     public void verifyisfreeze() {
         if (nrRoundOvertime != 0) {
             nrRoundOvertime--;
@@ -298,7 +363,12 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
             }
         }
     }
-    public String levelupintermediar(int levelup) {
-        return observer.get(4).update() + " " + levelup;
+
+    /**
+     * @param lvl - the intermediare level.
+     * @return the String for output file with the appropiate message when a hero levels up.
+     */
+    public String levelupintermediar(final int lvl) {
+        return observer.get(Constants.OBSERVER_LEVELUP).update() + " " + lvl;
     }
 }

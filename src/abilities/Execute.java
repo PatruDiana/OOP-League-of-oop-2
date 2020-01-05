@@ -7,13 +7,17 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Execute extends  Abilities implements Visitor {
-    private float ExecuteRogue = 1.15f;
-    private float ExecuteKnight = 1f;
-    private float ExecutePyromancer = 1.1f;
-    private float ExecuteWizard = 0.8f;
+    private float executeRogue;
+    private float executeKnight;
+    private float executePyromancer;
+    private float executeWizard;
     public Execute() {
         damage = Constants.DAMAGE_EXECUTE;
         damageprocent = Constants.HP_LIMIT;
+        executeRogue = Constants.ROGUE_MODIFICATOR_E;
+        executeKnight = Constants.KNIGHT_MODIFICATOR_E;
+        executePyromancer = Constants.PYROMANCER_MODIFICATOR_E;
+        executeWizard = Constants.WIZARD_MODIFICATOR_E;
     }
 
     /**
@@ -26,35 +30,43 @@ public class Execute extends  Abilities implements Visitor {
         }
     }
 
-    @Override
-    public void setCoefOffensive(float coef) {
-        if (ExecuteKnight != 1 ) {
-            ExecuteKnight += coef;
+    /**
+     * set the race modifiers if the player chooses the offensive strategy.
+     * @param percent - a percentage that will increase race coefficients.
+     */
+    public void setCoefOffensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (executeKnight != 1) {
+            executeKnight += percent;
         }
-        if (ExecutePyromancer != 1) {
-            ExecutePyromancer += coef;
+        if (executePyromancer != 1) {
+            executePyromancer += percent;
         }
-        if (ExecuteRogue != 1 ) {
-            ExecuteRogue += coef;
+        if (executeRogue != 1) {
+            executeRogue += percent;
         }
-        if (ExecuteWizard != 1) {
-            ExecuteWizard += coef;
+        if (executeWizard != 1) {
+            executeWizard += percent;
         }
     }
 
-    @Override
-    public void setCoefDefensive(float coef) {
-        if (ExecuteKnight != 1) {
-            ExecuteKnight -= coef;
+    /**
+     * set the race modifiers if the player chooses the defensive strategy.
+     * @param percent - a percentage that will reduce race coefficients.
+     */
+    public void setCoefDefensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (executeKnight != 1) {
+            executeKnight -= percent;
         }
-        if (ExecutePyromancer != 1) {
-            ExecutePyromancer -= coef;
+        if (executePyromancer != 1) {
+            executePyromancer -= percent;
         }
-        if (ExecuteRogue != 1) {
-            ExecuteRogue -= coef;
+        if (executeRogue != 1) {
+            executeRogue -= percent;
         }
-        if (ExecuteWizard != 1) {
-            ExecuteWizard -= coef;
+        if (executeWizard != 1) {
+            executeWizard -= percent;
         }
 
     }
@@ -64,27 +76,21 @@ public class Execute extends  Abilities implements Visitor {
      * @param p - a Pyromancer-type hero.
      */
     public void visit(final Pyromancer p) {
-        float hpLimit = damageprocent * p.getHpMax();
-        int limit = Math.round(hpLimit);
-        // checking the minimum life for fighting
-        if (p.getHp() < limit) {
-            p.setHpCurrent(p.getHp());
-        } else {
-            float dmg = damage;
-            float landBonus = landModificator;
-            // applying the lang type bonus
-            if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.LAND_TYPE) {
-                landBonus += Constants.LAND_BONUS;
-            }
-            dmg = dmg * landBonus;
-            int damageland = Math.round(dmg);
-            // applying the race modifier
-            float damagelandrace = damageland * ExecutePyromancer;
-            int result = Math.round(damagelandrace);
-            System.out.println("Execute :"  + result);
-            // decrease of the final damage from the opponent's hp
-            p.setHpCurrent(result);
+        float dmg = damage;
+        float landBonus = landModificator;
+        // applying the lang type bonus
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol())
+                == Constants.LAND_TYPE) {
+            landBonus += Constants.LAND_BONUS;
         }
+        dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
+        // applying the race modifier
+        float damagelandrace = damageland * executePyromancer;
+        int result = Math.round(damagelandrace);
+        // decrease of the final damage from the opponent's hp
+        p.setHpCurrent(result);
+
     }
 
     /**
@@ -92,27 +98,20 @@ public class Execute extends  Abilities implements Visitor {
      * @param k - a Knight-type hero.
      */
     public void visit(final Knight k) {
-        float hpLimit = damageprocent * k.getHpMax();
-        int limit = Math.round(hpLimit);
-        // checking the minimum life for fighting
-        if (k.getHp() < limit) {
-            k.setHpCurrent(k.getHp());
-        } else {
-            float dmg = damage;
-            float landBonus = landModificator;
-            // applying the lang type bonus
-            if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.LAND_TYPE) {
-                landBonus += Constants.LAND_BONUS;
-            }
-            dmg = dmg * landBonus;
-            int damageland = Math.round(dmg);
-            // applying the race modifier
-            float damagelandrace = damageland * ExecuteKnight;
-            int result = Math.round(damagelandrace);
-            System.out.println("Execute :"  + result);
-            // decrease of the final damage from the opponent's hp
-            k.setHpCurrent(result);
+        float dmg = damage;
+        float landBonus = landModificator;
+        // applying the lang type bonus
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol())
+                == Constants.LAND_TYPE) {
+            landBonus += Constants.LAND_BONUS;
         }
+        dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
+        // applying the race modifier
+        float damagelandrace = damageland * executeKnight;
+        int result = Math.round(damagelandrace);
+        // decrease of the final damage from the opponent's hp
+        k.setHpCurrent(result);
     }
 
     /**
@@ -120,27 +119,20 @@ public class Execute extends  Abilities implements Visitor {
      * @param r - a Rogue-type hero.
      */
     public void visit(final Rogue r) {
-        float hpLimit = damageprocent * r.getHpMax();
-        int limit = Math.round(hpLimit);
-        // checking the minimum life for fighting
-        if (r.getHp() < limit) {
-            r.setHpCurrent(r.getHp());
-        } else {
-            float dmg = damage;
-            float landBonus = landModificator;
-            // applying the lang type bonus
-            if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.LAND_TYPE) {
-                landBonus += Constants.LAND_BONUS;
-            }
-            dmg = dmg * landBonus;
-            int damageland = Math.round(dmg);
-            // applying the race modifier
-            float damagelandrace = damageland * ExecuteRogue;
-            int result = Math.round(damagelandrace);
-            System.out.println("Execute :"  + result);
-            // decrease of the final damage from the opponent's hp
-            r.setHpCurrent(result);
+        float dmg = damage;
+        float landBonus = landModificator;
+        // applying the lang type bonus
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol())
+                == Constants.LAND_TYPE) {
+            landBonus += Constants.LAND_BONUS;
         }
+        dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
+        // applying the race modifier
+        float damagelandrace = damageland * executeRogue;
+        int result = Math.round(damagelandrace);
+        // decrease of the final damage from the opponent's hp
+        r.setHpCurrent(result);
     }
 
     /**
@@ -148,28 +140,21 @@ public class Execute extends  Abilities implements Visitor {
      * @param w - a Wizard-type hero.
      */
     public void visit(final Wizard w) {
-        float hpLimit = damageprocent * w.getHpMax();
-        int limit = Math.round(hpLimit);
-        // checking the minimum life for fighting
-//        if (w.getHp() < limit) {
-//            w.setHpCurrent(w.getHp());
-//        } else {
-            float dmg = damage;
-            float landBonus = landModificator;
-            // applying the lang type bonus
-            if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.LAND_TYPE) {
-                landBonus += Constants.LAND_BONUS;
-            }
-            dmg = dmg * landBonus;
-            int damageland = Math.round(dmg);
-            // setting the damage received without the race modifier for the wizard hero
-            w.setDamageRec(damageland);
-            // applying the race modifier
-            float damagelandrace = ExecuteWizard * damageland;
-            int result = Math.round(damagelandrace);
-            System.out.println("Execute :"  + result);
-            // decrease of the final damage from the opponent's hp
-            w.setHpCurrent(result);
-//        }
+        float dmg = damage;
+        float landBonus = landModificator;
+        // applying the lang type bonus
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol())
+                == Constants.LAND_TYPE) {
+            landBonus += Constants.LAND_BONUS;
+        }
+        dmg = dmg * landBonus;
+        int damageland = Math.round(dmg);
+        // setting the damage received without the race modifier for the wizard hero
+        w.setDamageRec(damageland);
+        // applying the race modifier
+        float damagelandrace = executeWizard * damageland;
+        int result = Math.round(damagelandrace);
+        // decrease of the final damage from the opponent's hp
+        w.setHpCurrent(result);
     }
 }

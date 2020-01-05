@@ -9,14 +9,18 @@ import heroes.Wizard;
 public class Backstab extends Abilities implements Visitor {
     private int nrRounds;
     private float woodsModificator;
-    private float BackstabRogue = 1.2f;
-    private float BackstabKnight = 0.9f;
-    private float BackstabPyromancer = 1.25f;
-    private float BackstabWizard = 1.25f;
+    private float backstabRogue;
+    private float backstabKnight;
+    private float backstabPyromancer;
+    private float backstabWizard;
     Backstab() {
         damage = Constants.DAMAGE_BACKSTAB;
         nrRounds = 0;
         woodsModificator = 1;
+        backstabRogue = Constants.ROGUE_MODIFICATOR_B;
+        backstabKnight = Constants.KNIGHT_MODIFICATOR_B;
+        backstabPyromancer = Constants.PYROMANCER_MODIFICATOR_B;
+        backstabWizard = Constants.WIZARD_MODIFICATOR_B;
     }
 
     /**
@@ -26,36 +30,44 @@ public class Backstab extends Abilities implements Visitor {
         damage += Constants.EXTRA_DAMAGE_BACKSTAB;
     }
 
-    @Override
-    public void setCoefOffensive(float coef) {
-       if (BackstabKnight != 1) {
-           BackstabKnight += coef;
+    /**
+     * set the race modifiers if the player chooses the offensive strategy.
+     * @param percent - a percentage that will increase race coefficients.
+     */
+    public void setCoefOffensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+       if (backstabKnight != 1) {
+           backstabKnight += percent;
        }
-       if (BackstabPyromancer != 1) {
-           BackstabPyromancer += coef;
+       if (backstabPyromancer != 1) {
+           backstabPyromancer += percent;
        }
-       if (BackstabRogue != 1) {
-           BackstabRogue += coef;
+       if (backstabRogue != 1) {
+           backstabRogue += percent;
        }
-       if (BackstabWizard != 1) {
-           BackstabWizard += coef;
+       if (backstabWizard != 1) {
+           backstabWizard += percent;
        }
 
     }
 
-    @Override
-    public void setCoefDefensive(float coef) {
-        if (BackstabKnight != 1) {
-            BackstabKnight -= coef;
+    /**
+     * set the race modifiers if the player chooses the defensive strategy.
+     * @param percent - a percentage that will reduce race coefficients.
+     */
+    public void setCoefDefensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (backstabKnight != 1) {
+            backstabKnight -= percent;
         }
-        if (BackstabPyromancer != 1) {
-            BackstabPyromancer -= coef;
+        if (backstabPyromancer != 1) {
+            backstabPyromancer -= percent;
         }
-        if (BackstabRogue != 1) {
-            BackstabRogue -= coef;
+        if (backstabRogue != 1) {
+            backstabRogue -= percent;
         }
-        if (BackstabWizard != 1) {
-            BackstabWizard -= coef;
+        if (backstabWizard != 1) {
+            backstabWizard -= percent;
         }
     }
 
@@ -69,23 +81,25 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol())
+                    == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
-        // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.WOODS_TYPE) {
+        // applying the land type bonus
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = damageland * BackstabPyromancer;
+        float damagelandrace = damageland * backstabPyromancer;
         int dmglandrace = Math.round(damagelandrace);
+        // applying the land bonus for ability
         float damagerace = woods * dmglandrace;
         int result = Math.round(damagerace);
-        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
     }
@@ -100,23 +114,25 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol())
+                    == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
-        // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.WOODS_TYPE) {
+        // applying the land type bonus
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = damageland * BackstabKnight;
+        float damagelandrace = damageland * backstabKnight;
         int dmglandrace = Math.round(damagelandrace);
+        // applying the land bonus for ability
         float damagerace = woods * dmglandrace;
         int result = Math.round(damagerace);
-        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
 
@@ -132,23 +148,25 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol())
+                    == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = damageland * BackstabRogue;
+        float damagelandrace = damageland * backstabRogue;
         int dmglandrace = Math.round(damagelandrace);
+        // applying the land bonus for ability
         float damagerace = woods * dmglandrace;
         int result = Math.round(damagerace);
-        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
 
@@ -164,25 +182,27 @@ public class Backstab extends Abilities implements Visitor {
         float landBonus = landModificator;
         // the possibility of a critical hit
         if ((nrRounds % Constants.NR_ROUNDS_BACKSTAB) == 0) {
-            if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+            if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol())
+                    == Constants.WOODS_TYPE) {
                 woods += Constants.HIT_WOODS;
             }
         }
         nrRounds++;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.WOODS_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol())
+                == Constants.WOODS_TYPE) {
             landBonus += Constants.WOODS_BONUS;
         }
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
+        // applying the land bonus for ability
         float damagewood = woods * damageland;
         int dmgwood = Math.round(damagewood);
         // setting the damage received without the race modifier for the wizard hero
         w.setDamageRec(dmgwood);
         // applying the race modifier
-        float damagelandrace = dmgwood * BackstabWizard;
+        float damagelandrace = dmgwood * backstabWizard;
         int result = Math.round(damagelandrace);
-        System.out.println("Backstab: " + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
 

@@ -1,14 +1,17 @@
 package strategies;
 
 import heroes.Hero;
-
+import common.Constants;
 public class DefensiveWizardStrategy implements Strategy {
-    @Override
-    public void changecoef(Hero hero) {
+    /**
+     * if the hero choose to play defensive.
+     * @param hero - a Wizard hero.
+     */
+    public void changecoef(final Hero hero) {
         for (int i = 0; i < hero.getAbilities().size(); i++) {
-            hero.getAbilities().get(i).setCoefDefensive(0.2f);
+            hero.getAbilities().get(i).setCoefDefensive(Constants.WIZARD_DEF);
         }
-        float life = 1f/5 * hero.getHpCurrent();
+        float life = Constants.WIZARD_LIFE_DEF * hero.getHpCurrent();
         hero.setHpCurrentStrategy(hero.getHpCurrent() + Math.round(life));
     }
 }

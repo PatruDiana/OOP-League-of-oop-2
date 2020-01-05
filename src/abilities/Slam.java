@@ -7,13 +7,17 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Slam extends Abilities implements Visitor {
-    private float SlamRogue = 0.8f;
-    private float SlamKnight = 1.2f;
-    private float SlamPyromancer = 0.9f;
-    private float SlamWizard = 1.05f;
+    private float slamRogue;
+    private float slamKnight;
+    private float slamPyromancer;
+    private float slamWizard;
     public Slam() {
         damage = Constants.DAMAGE_SLAM;
         nrRoundsOvertime = Constants.NR_ROUNDS_OVERTIME_S;
+        slamRogue = Constants.ROGUE_MODIFICATOR_S;
+        slamKnight = Constants.KNIGHT_MODIFICATOR_S;
+        slamPyromancer = Constants.PYROMANCER_MODIFICATOR_S;
+        slamWizard = Constants.WIZARD_MODIFICATOR_S;
     }
 
     /**
@@ -23,35 +27,43 @@ public class Slam extends Abilities implements Visitor {
         damage += Constants.EXTRA_DAMAGE_SLAM;
     }
 
-    @Override
-    public void setCoefOffensive(float coef) {
-        if (SlamKnight != 1) {
-            SlamKnight += coef;
+    /**
+     * set the race modifiers if the player chooses the offensive strategy.
+     * @param percent - a percentage that will increase race coefficients.
+     */
+    public void setCoefOffensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (slamKnight != 1) {
+            slamKnight += percent;
         }
-        if (SlamPyromancer != 1) {
-            SlamPyromancer += coef;
+        if (slamPyromancer != 1) {
+            slamPyromancer += percent;
         }
-        if (SlamRogue != 1) {
-            SlamRogue += coef;
+        if (slamRogue != 1) {
+            slamRogue += percent;
         }
-        if (SlamWizard != 1) {
-            SlamWizard += coef;
+        if (slamWizard != 1) {
+            slamWizard += percent;
         }
     }
 
-    @Override
-    public void setCoefDefensive(float coef) {
-        if (SlamKnight != 1) {
-            SlamKnight -= coef;
+    /**
+     * set the race modifiers if the player chooses the defensive strategy.
+     * @param percent - a percentage that will reduce race coefficients.
+     */
+    public void setCoefDefensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (slamKnight != 1) {
+            slamKnight -= percent;
         }
-        if (SlamPyromancer != 1) {
-            SlamPyromancer -= coef;
+        if (slamPyromancer != 1) {
+            slamPyromancer -= percent;
         }
-        if (SlamRogue != 1) {
-            SlamRogue -= coef;
+        if (slamRogue != 1) {
+            slamRogue -= percent;
         }
-        if (SlamWizard != 1) {
-            SlamWizard -= coef;
+        if (slamWizard != 1) {
+            slamWizard -= percent;
         }
     }
 
@@ -69,11 +81,10 @@ public class Slam extends Abilities implements Visitor {
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = damageland * SlamPyromancer;
+        float damagelandrace = damageland * slamPyromancer;
         int result = Math.round(damagelandrace);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
-        System.out.println("Slam :"  + result);
         // set the damage overtime
         p.setDamageOvertime(0, nrRoundsOvertime, true);
     }
@@ -92,9 +103,8 @@ public class Slam extends Abilities implements Visitor {
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace  = SlamKnight * damageland;
+        float damagelandrace  = slamKnight * damageland;
         int result = Math.round(damagelandrace);
-        System.out.println("Slam :"  + result);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
         // set the damage overtime
@@ -116,9 +126,8 @@ public class Slam extends Abilities implements Visitor {
         dmg = dmg * landBonus;
         int damageland = Math.round(dmg);
         // applying the race modifier
-        float damagelandrace = SlamRogue * damageland;
+        float damagelandrace = slamRogue * damageland;
         int result = Math.round(damagelandrace);
-        System.out.println("Slam :"  + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
         // set the damage overtime
@@ -142,9 +151,8 @@ public class Slam extends Abilities implements Visitor {
         // setting the damage received without the race modifier for the wizard hero
         w.setDamageRec(damageland);
         // applying the race modifier
-        float damagelandrace = SlamWizard * damageland;
+        float damagelandrace = slamWizard * damageland;
         int result = Math.round(damagelandrace);
-        System.out.println("Slam :"  + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
         // set the damage overtime

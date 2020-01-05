@@ -39,24 +39,32 @@ public class Rogue extends Hero {
         hpCurrent = hpMax;
     }
 
-
+    /**
+     *  set the player's strategy.
+     */
     public void setTheStrategy() {
-        if(1f/7* getHpMax() < hpCurrent && hpCurrent < 1f/5 * getHpMax()) {
+        if (Constants.ROGUE_STRATEGY1 * getHpMax() < hpCurrent
+                && hpCurrent < Constants.ROGUE_STRATEGY2 * getHpMax()) {
             strategy = new OffensiveRogueStrategy();
             strategy.changecoef(this);
-        } else if (hpCurrent <= 1f/7 * getHpMax()) {
+        } else if (hpCurrent <= Constants.ROGUE_STRATEGY1 * getHpMax()) {
             strategy = new DefensiveRogueStrategy();
             strategy.changecoef(this);
         }
     }
 
-    @Override
+    /**
+     * @return the name of hero.
+     */
     public String getName() {
         return "Rogue";
     }
 
-    @Override
-    public void acceptangel(angels.VisitAngel a) {
+    /**
+     * requires the visitor angel to visit the current hero.
+     * @param a
+     */
+    public void acceptangel(final angels.VisitAngel a) {
         a.visit(this);
     }
 }

@@ -34,26 +34,37 @@ public class Pyromancer extends Hero {
      * set the maximum hp with the level update.
      */
     public void setHPmax() {
-        hpMax += common.Constants.EXTRA_HP_PYROMANCER;
+        hpMax += Constants.EXTRA_HP_PYROMANCER;
         hp = hpMax;
         hpCurrent = hpMax;
     }
-    public void setTheStrategy(){
-        if(1f/4 * getHpMax() < hpCurrent & hpCurrent < 1f/3 * getHpMax()) {
+
+    /**
+     *  set the player's strategy.
+     */
+    public void setTheStrategy() {
+        if (Constants.PYROMANCER_STRATEGY1 * getHpMax() < hpCurrent
+                && hpCurrent < Constants.PYROMANCER_STRATEGY2 * getHpMax()) {
             strategy = new OffensivePyromancerStrategy();
             strategy.changecoef(this);
-        } else if (hpCurrent <= 1f/4 * getHpMax()) {
+        } else if (hpCurrent <= Constants.PYROMANCER_STRATEGY1 * getHpMax()) {
             strategy = new DefensivePyromancerStrategy();
             strategy.changecoef(this);
         }
     }
 
-    @Override
+    /**
+     * @return the name of hero.
+     */
     public String getName() {
         return "Pyromancer";
     }
-    @Override
-    public void acceptangel(angels.VisitAngel a) {
+
+    /**
+     * requires the visitor angel to visit the current hero.
+     * @param a
+     */
+    public void acceptangel(final angels.VisitAngel a) {
         a.visit(this);
     }
 }

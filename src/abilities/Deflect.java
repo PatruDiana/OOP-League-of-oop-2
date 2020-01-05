@@ -7,19 +7,21 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Deflect extends Abilities implements Visitor {
-    private float DeflectRogue = 1.2f;
-    private float DeflectKnight = 1.4f;
-    private float DeflectPyromancer = 1.3f;
+    private float deflectRogue;
+    private float deflectKnight;
+    private float deflectPyromancer;
     Deflect() {
       damageprocent = Constants.PERCENT_DEFLECT;
+      deflectKnight = Constants.KNIGHT_MODIFICATOR_DE;
+      deflectRogue = Constants.ROQUE_MODIFICATOR_DE;
+      deflectPyromancer = Constants.PYROMANCER_MODIFICATOR_DE;
     }
 
     /**
      * update the base damage of Deflect ability as the hero's level increases.
      */
     public void setDamage() {
-        System.out.println("Intra aici ? " + damageprocent);
-        if (damageprocent < Constants.MAXIM_PERCENT_DEFLECT - 0.1f) {
+        if (damageprocent < Constants.MAXIM_PERCENT_DEFLECT) {
             damageprocent += Constants.EXTRA_PERCENT_DEFLECT;
         }
         System.out.println("Noul damage procent: " + damageprocent);
@@ -33,33 +35,40 @@ public class Deflect extends Abilities implements Visitor {
         damage = damagereceived;
     }
 
-    @Override
-    public void setCoefOffensive(float coef) {
-        if (DeflectRogue != 1 ) {
-            DeflectRogue += coef;
+    /**
+     * set the race modifiers if the player chooses the offensive strategy.
+     * @param percent - a percentage that will increase race coefficients.
+     */
+    public void setCoefOffensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (deflectRogue != 1) {
+            deflectRogue += percent;
         }
-        if (DeflectKnight != 1 ) {
-            DeflectKnight += coef;
+        if (deflectKnight != 1) {
+            deflectKnight += percent;
         }
-        if (DeflectPyromancer != 1) {
-            DeflectPyromancer += coef;
+        if (deflectPyromancer != 1) {
+            deflectPyromancer += percent;
         }
 
     }
 
-    @Override
-    public void setCoefDefensive(float coef) {
-
-        if (DeflectRogue != 1 ) {
-            DeflectRogue -= coef;
+    /**
+     * set the race modifiers if the player chooses the defensive strategy.
+     * @param percent - a percentage that will reduce race coefficients.
+     */
+    public void setCoefDefensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (deflectRogue != 1) {
+            deflectRogue -= percent;
 
         }
-        if (DeflectKnight != 1 ) {
-            DeflectKnight -= coef;
+        if (deflectKnight != 1) {
+            deflectKnight -= percent;
 
         }
-        if (DeflectPyromancer != 1) {
-            DeflectPyromancer -= coef;
+        if (deflectPyromancer != 1) {
+            deflectPyromancer -= percent;
         }
     }
 
@@ -71,16 +80,15 @@ public class Deflect extends Abilities implements Visitor {
         float dmgpercent = damageprocent;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.DESERT_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol())
+                == Constants.DESERT_TYPE) {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
         // applying the race modifier
-        float damagelandrace = dmgpercent * DeflectPyromancer;
-        System.out.println("DeflectPyromancer: " + DeflectPyromancer);
+        float damagelandrace = dmgpercent * deflectPyromancer;
         float dmg = damagelandrace * damage;
         int result = Math.round(dmg);
-        System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
     }
@@ -93,12 +101,13 @@ public class Deflect extends Abilities implements Visitor {
         float dmgpercent = damageprocent;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.DESERT_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol())
+                == Constants.DESERT_TYPE) {
             landBonus += Constants.DESERT_BONUS;
         }
         dmgpercent = dmgpercent * landBonus;
         // applying the race modifier
-        float damagelandrace = dmgpercent * DeflectKnight;
+        float damagelandrace = dmgpercent * deflectKnight;
         float dmg = damagelandrace * damage;
         int result = Math.round(dmg);
         System.out.println("Deflect :"  + result);
@@ -114,20 +123,15 @@ public class Deflect extends Abilities implements Visitor {
         float dmgpercent = damageprocent;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.DESERT_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol())
+                == Constants.DESERT_TYPE) {
             landBonus += Constants.DESERT_BONUS;
         }
-        System.out.println("dmgpercent: " + dmgpercent);
         dmgpercent = dmgpercent * landBonus;
-        System.out.println("dmgpercent: " + dmgpercent);
-        System.out.println("LandBonus: " + landBonus);
         // applying the race modifier
-        float damagelandrace = dmgpercent * DeflectRogue;
-        System.out.println("Deflect Rogue: " + DeflectRogue);
+        float damagelandrace = dmgpercent * deflectRogue;
         float dmg =  damagelandrace * damage;
-        System.out.println("Damage primit " + damage);
         int result = Math.round(dmg);
-        System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
     }
@@ -136,5 +140,5 @@ public class Deflect extends Abilities implements Visitor {
      * The Deflect ability has no effect on a Wizard hero.
      * @param w - a Wizard-type hero.
      */
-    public void visit(final Wizard w) {}
+    public void visit(final Wizard w) { }
 }

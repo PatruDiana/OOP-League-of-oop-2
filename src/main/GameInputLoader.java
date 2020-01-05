@@ -1,7 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import fileio.FileSystem;
 
@@ -48,9 +47,9 @@ public class GameInputLoader {
                     arraymoves.add(c);
                 }
             }
-            for(int i = 0; i < nrRounds; i++) {
+            for (int i = 0; i < nrRounds; i++) {
                 int round = fs.nextInt();
-                for(int j = 0; j < round; j++) {
+                for (int j = 0; j < round; j++) {
                     String info = fs.nextWord();
                     angelsinfo.add(info);
                 }
@@ -63,7 +62,8 @@ public class GameInputLoader {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-         Game game = Game.getInstance(playersinfo, coordplayers, arraymoves, nrRounds, nrroundsangels, angelsinfo);
+         Game game = Game.getInstance(playersinfo, coordplayers, arraymoves,
+                 nrRounds, nrroundsangels, angelsinfo);
     }
 
 }

@@ -7,6 +7,11 @@ import angels.Angel;
 import angels.AngelFactory;
 import magician.ActionAngel;
 import magician.AppearAngel;
+import magician.LevelUpIntermediarHero;
+import magician.LevelUpHero;
+import magician.AliveByAngel;
+import magician.DieHerobyAngel;
+import magician.DieHerobyHero;
 
 public final class Game {
     private static Game instance = null;
@@ -21,8 +26,8 @@ public final class Game {
     private fileio.FileSystem fs;
 
     private Game(final ArrayList<String> playersinfo, final ArrayList<Integer> coordplayers,
-                final ArrayList<Character> arraymoves, final int rounds, final ArrayList<Integer> nrroundsangel,
-                 final ArrayList<String> angelsinfo) {
+                final ArrayList<Character> arraymoves, final int rounds,
+                 final ArrayList<Integer> nrroundsangel, final ArrayList<String> angelsinfo) {
         this.playersinfo = playersinfo;
         this.heroes = new ArrayList<>(playersinfo.size());
         this.arraymoves = arraymoves;
@@ -35,9 +40,11 @@ public final class Game {
 
     static Game getInstance(final ArrayList<String> playersinfo,
                             final ArrayList<Integer> coordplayers,
-                            final ArrayList<Character> arraymoves, final int rounds, final ArrayList<Integer> nrroundsangel,
-                            final ArrayList<String> angelsinfo){
-        instance = new Game(playersinfo, coordplayers, arraymoves, rounds, nrroundsangel, angelsinfo);
+                            final ArrayList<Character> arraymoves, final int rounds,
+                            final ArrayList<Integer> nrroundsangel,
+                            final ArrayList<String> angelsinfo) {
+        instance = new Game(playersinfo, coordplayers, arraymoves, rounds,
+                nrroundsangel, angelsinfo);
         return instance;
     }
 
@@ -52,11 +59,11 @@ public final class Game {
         int coord1 = 0;
         int coord2 = 1;
         for (int i = 0; i < playersinfo.size(); i++) {
-            magician.DieHerobyHero dieHerobyHero = new magician.DieHerobyHero();
-            magician.LevelUpHero levelUpHero = new magician.LevelUpHero();
-            magician.DieHerobyAngel dieHerobyAngel = new magician.DieHerobyAngel();
-            magician.AliveByAngel aliveByAngel = new magician.AliveByAngel();
-            magician.LevelUpIntermediarHero levelUpIntermediarHero = new magician.LevelUpIntermediarHero();
+            DieHerobyHero dieHerobyHero = new DieHerobyHero();
+            LevelUpHero levelUpHero = new LevelUpHero();
+            DieHerobyAngel dieHerobyAngel = new DieHerobyAngel();
+            AliveByAngel aliveByAngel = new AliveByAngel();
+            LevelUpIntermediarHero levelUpIntermediarHero = new LevelUpIntermediarHero();
             Hero hero = HeroFactory.getHero(playersinfo.get(i),
                     coordplayers.get(coord1), coordplayers.get(coord2), i);
             heroes.add(hero);
@@ -73,33 +80,49 @@ public final class Game {
         fs = new FileSystem(input, output);
 
     }
+
+    /**
+     * each player moves properly on the map if it is not frozen.
+     */
+    private void heromoves() {
+        for (heroes.Hero value : heroes) {
+            Character move = arraymoves.get(0);
+            value.setMove(move);
+            arraymoves.remove(0);
+        }
+    }
+
+    /**
+     * applying for overtime damage at the beginning of each round.
+     */
+    private void heroovertime() {
+        for (heroes.Hero value : heroes) {
+            value.damageOvertime();
+        }
+    }
+
+    /**
+     * set the strategy of each player.
+     */
+    private void setstrategy() {
+        for (heroes.Hero value : heroes) {
+            if (!value.isFreeze()) {
+                value.setTheStrategy();
+            }
+        }
+    }
     /**
      * conducting the game itself.
      */
     public void startgame() throws java.io.IOException {
         int indexangels = 0;
         for (int i = 0; i < rounds; i++) {
-            int nrround = i + 1;
-            System.out.println( "~~ Round " + nrround + " ~~");
-            fs.writeWord("~~ Round " + nrround + " ~~");
+            int numberrround = i + 1;
+            fs.writeWord("~~ Round " + numberrround + " ~~");
             fs.writeNewLine();
-
-            // each player moves properly on the map if it is not frozen.
-            for (heroes.Hero value : heroes) {
-                Character move = arraymoves.get(0);
-                value.setMove(move);
-                arraymoves.remove(0);
-            }
-            // applying for overtime damage at the beginning of each round.
-            for (heroes.Hero value : heroes) {
-                value.damageOvertime();
-            }
-            // set the strategy of each player
-            for (heroes.Hero value : heroes) {
-                if (!value.isFreeze()) {
-                    value.setTheStrategy();
-                }
-            }
+            heromoves();
+            heroovertime();
+            setstrategy();
             for (int j = 0; j < heroes.size(); j++) {
                 for (int k = j + 1; k < heroes.size(); k++) {
                     // finding the opponent
@@ -134,16 +157,19 @@ public final class Game {
                             // if he won the fight, assign the appropriate xp
                             if (heroes.get(k).isDeath()) {
                                 String string1 = heroes.get(k).herodied();
-                                fs.writeWord(string1 + heroes.get(j).getName() + " " + heroes.get(j).getIndex());
+                                fs.writeWord(string1 + heroes.get(j).getName()
+                                        + " " + heroes.get(j).getIndex());
                                 fs.writeNewLine();
 
                             }
                             if (heroes.get(j).isDeath()) {
                                 String string1 = heroes.get(j).herodied();
-                                fs.writeWord(string1 + heroes.get(k).getName() + " " + heroes.get(k).getIndex());
+                                fs.writeWord(string1 + heroes.get(k).getName()
+                                        + " " + heroes.get(k).getIndex());
                                 fs.writeNewLine();
 
                             }
+                            // set the appropriate xp
                             if (!heroes.get(k).isDeath() && heroes.get(j).isDeath()) {
                                 int level = heroes.get(k).getLevel();
                                 heroes.get(k).setXp(heroes.get(j).getLevel());
@@ -175,7 +201,7 @@ public final class Game {
                     value.resetDamageRec();
                 }
             }
-            for(int j = 0; j < nrroundsangel.get(i); j++) {
+            for (int j = 0; j < nrroundsangel.get(i); j++) {
                 String infoangel = angelsinfo.get(indexangels);
                 String[] arrOfStr = infoangel.split(",");
                 int coordx = Integer.parseInt(arrOfStr[1]);
@@ -184,64 +210,97 @@ public final class Game {
                 angels.add(angel);
                 indexangels++;
             }
-            for (Angel angel : angels) {
-                 AppearAngel appearAngel = new AppearAngel();
-                 ActionAngel actionAngel = new ActionAngel();
-                 appearAngel.addangel(angel);
-                 actionAngel.addangel(angel);
-            }
-            for (Angel angel : angels) {
-                fs.writeWord(angel.appear());
-                fs.writeNewLine();
-                for (Hero hero : heroes) {
-                    if (hero.getRow() == angel.getCoodx() &&
-                            hero.getCol() == angel.getCoordy()) {
-                        if (!hero.getDeath() || angel.getName().equals("Spawner")) {
-                            int level = hero.getLevel();
-                            if(!angel.getName().equals("Spawner")) {
+            observerangels();
+            actionangels();
+            setHp();
+            deleteangels();
+            fs.writeNewLine();
+             verifyfreeze();
+        }
+    }
+
+    /**
+     * the action of each angel on each hero.
+     * @throws java.io.IOException
+     */
+    private void actionangels() throws java.io.IOException {
+        for (Angel angel : angels) {
+            fs.writeWord(angel.appear());
+            fs.writeNewLine();
+            for (Hero hero : heroes) {
+                if (hero.getRow() == angel.getCoodx()
+                        && hero.getCol() == angel.getCoordy()) {
+                    if (!hero.getDeath() || angel.getName().equals("Spawner")) {
+                        int level = hero.getLevel();
+                        if (!angel.getName().equals("Spawner")) {
+                            fs.writeWord(angel.actionangel(hero));
+                            fs.writeNewLine();
+                            hero.acceptangel(angel);
+                        } else {
+                            if (hero.getDeath()) {
                                 fs.writeWord(angel.actionangel(hero));
                                 fs.writeNewLine();
                                 hero.acceptangel(angel);
-                            } else {
-                              if (hero.getDeath()) {
-                                  fs.writeWord(angel.actionangel(hero));
-                                  fs.writeNewLine();
-                                  hero.acceptangel(angel);
-                                  fs.writeWord(hero.alivebyangel());
-                                  fs.writeNewLine();
-                              }
-                            }
-                            if (hero.isLevelup()) {
-                                for (int k = level + 1; k < hero.getLevel(); k++) {
-                                    fs.writeWord(hero.levelupintermediar(k));
-                                    fs.writeNewLine();
-                                }
-                                fs.writeWord(hero.herolevelup());
-                                fs.writeNewLine();
-                                hero.setLevelup(false);
-                            }
-                            if (hero.isDeath()) {
-                                fs.writeWord(hero.isdeadbyangel());
+                                fs.writeWord(hero.alivebyangel());
                                 fs.writeNewLine();
                             }
+                        }
+                        if (hero.isLevelup()) {
+                            for (int k = level + 1; k < hero.getLevel(); k++) {
+                                fs.writeWord(hero.levelupintermediar(k));
+                                fs.writeNewLine();
+                            }
+                            fs.writeWord(hero.herolevelup());
+                            fs.writeNewLine();
+                            hero.setLevelup(false);
+                        }
+                        if (hero.isDeath()) {
+                            fs.writeWord(hero.isdeadbyangel());
+                            fs.writeNewLine();
                         }
                     }
                 }
             }
-            for (Hero hero : heroes) {
-                hero.setHP();
-            }
-            // delete list of angels
-            if (angels.size() > 0) {
-                angels.subList(0, angels.size()).clear();
-            }
-            fs.writeNewLine();
-            for (Hero  hero : heroes) {
-                hero.verifyisfreeze();
-            }
         }
     }
 
+    /**
+     * add the observers to each angel.
+     */
+    private void observerangels() {
+        for (Angel angel : angels) {
+            AppearAngel appearAngel = new AppearAngel();
+            ActionAngel actionAngel = new ActionAngel();
+            appearAngel.addangel(angel);
+            actionAngel.addangel(angel);
+        }
+    }
+    /**
+     * set the hp which current hp.
+     */
+    private void setHp() {
+        for (Hero hero : heroes) {
+            hero.setHP();
+        }
+    }
+
+    /**
+     * delete list of angels.
+     */
+    private void deleteangels() {
+        if (angels.size() > 0) {
+            angels.subList(0, angels.size()).clear();
+        }
+    }
+
+    /**
+     * verify if the players is freeze of overtime damage.
+     */
+    private void verifyfreeze() {
+        for (Hero  hero : heroes) {
+            hero.verifyisfreeze();
+        }
+    }
     /**
      * print the final broad game.
      * @param input - file input

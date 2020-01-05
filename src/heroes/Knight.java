@@ -39,23 +39,32 @@ public class Knight extends Hero {
         hpCurrent = hpMax;
     }
 
-
+    /**
+     * set the player's strategy.
+     */
     public void setTheStrategy() {
-        if(1f/3 * getHpMax() < hpCurrent && hpCurrent < 1f/2* getHpMax()) {
+        if (Constants.KNIGHT_STRATEGY1 * getHpMax() < hpCurrent
+                && hpCurrent < Constants.KNIGHT_STRATEGY2 * getHpMax()) {
            strategy = new OffensiveKnightStrategy();
             strategy.changecoef(this);
-        } else if (hpCurrent <= 1f/3 * getHpMax()) {
+        } else if (hpCurrent <= Constants.KNIGHT_STRATEGY1 * getHpMax()) {
             strategy = new DefensiveKnightStrategy();
             strategy.changecoef(this);
         }
     }
 
-    @Override
+    /**
+     * @return the name of hero.
+     */
     public String getName() {
         return "Knight";
     }
 
-    public void acceptangel(angels.VisitAngel a) {
+    /**
+     * requires the visitor angel to visit the current hero.
+     * @param a
+     */
+    public void acceptangel(final angels.VisitAngel a) {
             a.visit(this);
     }
 }

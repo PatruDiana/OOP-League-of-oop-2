@@ -1,18 +1,25 @@
 package magician;
 
 public class DieHerobyAngel extends magician.Observer {
-    @Override
+    /**
+     * @return the String for output file with the appropiate message when a hero dies by an angel.
+     */
     public String update() {
-        return "Player " + this.hero.getName() + " "+ this.hero.getIndex() + " was killed by an angel";
+        return "Player " + this.hero.getName() + " " + this.hero.getIndex()
+                + " was killed by an angel";
     }
 
-    @Override
-    public void addangel(angels.Angel angel) {
+    /**
+     * @param angel- add the angel as observable.
+     */
+    public void addangel(final angels.Angel angel) {
 
     }
 
-    @Override
-    public void addhero(heroes.Hero hero) {
+    /**
+     * @param hero - add the hero as observable.
+     */
+    public void addhero(final heroes.Hero hero) {
         this.hero = hero;
         this.hero.addObservers(this);
     }

@@ -7,14 +7,18 @@ import heroes.Rogue;
 import heroes.Wizard;
 
 public class Ignite extends Abilities implements Visitor {
-    private float IgniteRogue = 0.8f;
-    private float IgniteKnight = 1.2f;
-    private float IgnitePyromancer = 0.9f;
-    private float IgniteWizard = 1.05f;
+    private float igniteRogue;
+    private float igniteKnight;
+    private float ignitePyromancer;
+    private float igniteWizard;
     Ignite() {
         damage = Constants.DAMAGE_IGNITE;
         damageOvertime = Constants.DAMAGE_OVERTIME_IGNITE;
         nrRoundsOvertime = Constants.NR_ROUNDS_OVERTIME_I;
+        igniteRogue = Constants.ROGUE_MODIFICATOR_I;
+        igniteKnight = Constants.KNIGHT_MODIFICATOR_I;
+        ignitePyromancer = Constants.PYROMANCER_MODIFICATOR_I;
+        igniteWizard = Constants.WIZARD_MODIFICATOR_I;
     }
 
     /**
@@ -25,35 +29,43 @@ public class Ignite extends Abilities implements Visitor {
         damageOvertime += Constants.EXTRA_DAMAGE_OVERTIME_IGNITE;
     }
 
-    @Override
-    public void setCoefOffensive(float coef) {
-        if (IgniteKnight != 1) {
-            IgniteKnight += coef;
+    /**
+     * set the race modifiers if the player chooses the offensive strategy.
+     * @param percent - a percentage that will increase race coefficients.
+     */
+    public void setCoefOffensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (igniteKnight != 1) {
+            igniteKnight += percent;
         }
-        if (IgnitePyromancer != 1) {
-            IgnitePyromancer += coef;
+        if (ignitePyromancer != 1) {
+            ignitePyromancer += percent;
         }
-        if (IgniteRogue != 1) {
-            IgniteRogue += coef;
+        if (igniteRogue != 1) {
+            igniteRogue += percent;
         }
-        if (IgniteWizard != 1) {
-            IgniteWizard += coef;
+        if (igniteWizard != 1) {
+            igniteWizard += percent;
         }
     }
 
-    @Override
-    public void setCoefDefensive(float coef) {
-        if (IgniteKnight != 1) {
-            IgniteKnight -= coef;
+    /**
+     * set the race modifiers if the player chooses the defensive strategy.
+     * @param percent - a percentage that will reduce race coefficients.
+     */
+    public void setCoefDefensive(final float percent) {
+        // the race modifiers change if initially they are different from 1
+        if (igniteKnight != 1) {
+            igniteKnight -= percent;
         }
-        if (IgnitePyromancer != 1) {
-            IgnitePyromancer -= coef;
+        if (ignitePyromancer != 1) {
+            ignitePyromancer -= percent;
         }
-        if (IgniteRogue != 1) {
-            IgniteRogue -= coef;
+        if (igniteRogue != 1) {
+            igniteRogue -= percent;
         }
-        if (IgniteWizard != 1) {
-            IgniteWizard -= coef;
+        if (igniteWizard != 1) {
+            igniteWizard -= percent;
         }
     }
 
@@ -66,7 +78,8 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(p.getRow(), p.getCol())
+                == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
@@ -74,13 +87,11 @@ public class Ignite extends Abilities implements Visitor {
         int damagewithland = Math.round(dmg);
         int damageovertimewithland = Math.round(dmgOvertime);
         // applying the race modifier
-       float damagelandrace = IgnitePyromancer * damagewithland;
+       float damagelandrace = ignitePyromancer * damagewithland;
         // set the damage overtime
-        float damageovertimelandrace = IgnitePyromancer * damageovertimewithland;
+        float damageovertimelandrace = ignitePyromancer * damageovertimewithland;
         int result = Math.round(damagelandrace);
-        System.out.println("Ignite: " + result);
         int resultOvertime = Math.round(damageovertimelandrace);
-        System.out.println("Ignite overtime: " + resultOvertime);
         // decrease of the final damage from the opponent's hp
         p.setHpCurrent(result);
         // setting the damage overtime on the opponent
@@ -96,7 +107,8 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(k.getRow(), k.getCol())
+                == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
@@ -104,13 +116,11 @@ public class Ignite extends Abilities implements Visitor {
         int damagewithland = Math.round(dmg);
         int damageovertimewithland = Math.round(dmgOvertime);
         // applying the race modifier
-        float dmglandrace = IgniteKnight * damagewithland;
+        float dmglandrace = igniteKnight * damagewithland;
         // set the damage overtime
-        float dmgovertimelandrace = IgniteKnight * damageovertimewithland;
+        float dmgovertimelandrace = igniteKnight * damageovertimewithland;
         int result = Math.round(dmglandrace);
-        System.out.println("Ignite :"  + result);
         int resultOvertime = Math.round(dmgovertimelandrace);
-        System.out.println("Ignite overtime: " + resultOvertime);
         // decrease of the final damage from the opponent's hp
         k.setHpCurrent(result);
         // setting the damage overtime on the opponent
@@ -126,7 +136,8 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol())
+                == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
@@ -134,13 +145,11 @@ public class Ignite extends Abilities implements Visitor {
         int damagewithland = Math.round(dmg);
         int damageovertimewithland = Math.round(dmgOvertime);
         // applying the race modifier
-        float damagelandrace = IgniteRogue * damagewithland;
+        float damagelandrace = igniteRogue * damagewithland;
         // set the damage overtime
-        float damageovertimelandrace = IgniteRogue * damageovertimewithland;
+        float damageovertimelandrace = igniteRogue * damageovertimewithland;
         int result = Math.round(damagelandrace);
-        System.out.println("Ignite :"  + result);
         int resultOvertime = Math.round(damageovertimelandrace);
-        System.out.println("Ignite overtime: " + resultOvertime);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
         r.setDamageOvertime(resultOvertime, nrRoundsOvertime, false);
@@ -155,7 +164,8 @@ public class Ignite extends Abilities implements Visitor {
         float dmgOvertime = damageOvertime;
         float landBonus = landModificator;
         // applying the lang type bonus
-        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol()) == Constants.VOLCANIC_TYPE) {
+        if (map.Mapworld.getInstance().getlocation(w.getRow(), w.getCol())
+                == Constants.VOLCANIC_TYPE) {
             landBonus += Constants.VOLCANIC_BONUS;
         }
         dmg = dmg * landBonus;
@@ -165,13 +175,11 @@ public class Ignite extends Abilities implements Visitor {
         dmgOvertime = dmgOvertime * landBonus;
         int damageovertimewithland = Math.round(dmgOvertime);
         // applying the race modifier
-        float damagelandrace = IgniteWizard * damagewithland;
+        float damagelandrace = igniteWizard * damagewithland;
         // set the damage overtime
-        float damageovertimelandrace = IgniteWizard * damageovertimewithland;
+        float damageovertimelandrace = igniteWizard * damageovertimewithland;
         int result = Math.round(damagelandrace);
-        System.out.println("Ignite: " + result);
         int resultOvertime = Math.round(damageovertimelandrace);
-        System.out.println("Ignite overtime: " + resultOvertime);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
         // setting the damage overtime on the opponent
