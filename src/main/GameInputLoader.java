@@ -52,8 +52,6 @@ public class GameInputLoader {
                 int round = fs.nextInt();
                 for(int j = 0; j < round; j++) {
                     String info = fs.nextWord();
-//                System.out.println(round);
-//                System.out.println(info);
                     angelsinfo.add(info);
                 }
                 nrroundsangels.add(round);

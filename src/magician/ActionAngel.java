@@ -13,7 +13,5 @@ public class ActionAngel extends magician.Observer {
     }
 
     @Override
-    public void addhero(heroes.Hero hero) {
-
-    }
+    public void addhero(heroes.Hero hero) {}
 }

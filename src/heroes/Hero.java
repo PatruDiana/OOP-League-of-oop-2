@@ -92,7 +92,7 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
     public void setDamageOvertime(final int newdamageOvertime, final int newnrRoundOvertime,
                                   final boolean newfreeze) {
         this.damageOvertime = newdamageOvertime;
-        this.nrRoundOvertime = newnrRoundOvertime;
+        this.nrRoundOvertime = newnrRoundOvertime + 1;
         this.freeze = newfreeze;
     }
     /**
@@ -102,10 +102,10 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
         if (nrRoundOvertime != 0) {
             hp -= damageOvertime;
             hpCurrent = hp;
-            nrRoundOvertime--;
-            if (nrRoundOvertime == 0 && freeze) {
-                freeze = false;
-            }
+//            nrRoundOvertime--;
+//            if (nrRoundOvertime == 0 && freeze) {
+//                freeze = false;
+//            }
             // declaring the player dead
             if (hp <= 0) {
                 setDeath();
@@ -289,4 +289,16 @@ public abstract class Hero implements Visitable, angels.VisitableAngel {
         return observer.get(2).update();
     }
     public String alivebyangel() {return observer.get(3).update();}
+
+    public void verifyisfreeze() {
+        if (nrRoundOvertime != 0) {
+            nrRoundOvertime--;
+            if (nrRoundOvertime == 0 && freeze) {
+                freeze = false;
+            }
+        }
+    }
+    public String levelupintermediar(int levelup) {
+        return observer.get(4).update() + " " + levelup;
+    }
 }

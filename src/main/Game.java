@@ -56,6 +56,7 @@ public final class Game {
             magician.LevelUpHero levelUpHero = new magician.LevelUpHero();
             magician.DieHerobyAngel dieHerobyAngel = new magician.DieHerobyAngel();
             magician.AliveByAngel aliveByAngel = new magician.AliveByAngel();
+            magician.LevelUpIntermediarHero levelUpIntermediarHero = new magician.LevelUpIntermediarHero();
             Hero hero = HeroFactory.getHero(playersinfo.get(i),
                     coordplayers.get(coord1), coordplayers.get(coord2), i);
             heroes.add(hero);
@@ -63,6 +64,7 @@ public final class Game {
             levelUpHero.addhero(heroes.get(i));
             dieHerobyAngel.addhero(heroes.get(i));
             aliveByAngel.addhero(heroes.get(i));
+            levelUpIntermediarHero.addhero(heroes.get(i));
             coord1 = coord1 + 2;
             coord2 = coord1 + 1;
         }
@@ -74,7 +76,7 @@ public final class Game {
     /**
      * conducting the game itself.
      */
-    public void startgame(final String input, final String output) throws java.io.IOException {
+    public void startgame() throws java.io.IOException {
         int indexangels = 0;
         for (int i = 0; i < rounds; i++) {
             int nrround = i + 1;
@@ -88,15 +90,15 @@ public final class Game {
                 value.setMove(move);
                 arraymoves.remove(0);
             }
+            // applying for overtime damage at the beginning of each round.
+            for (heroes.Hero value : heroes) {
+                value.damageOvertime();
+            }
             // set the strategy of each player
             for (heroes.Hero value : heroes) {
                 if (!value.isFreeze()) {
                     value.setTheStrategy();
                 }
-            }
-            // applying for overtime damage at the beginning of each round.
-            for (heroes.Hero value : heroes) {
-                value.damageOvertime();
             }
             for (int j = 0; j < heroes.size(); j++) {
                 for (int k = j + 1; k < heroes.size(); k++) {
@@ -126,8 +128,6 @@ public final class Game {
                                 heroes.get(j).fight(heroes.get(k).getAbilities());
 
                              }
-                            // TODO la ingeri, totul e lucrat pe hpcuurent, so
-                            // TODO trebuie ca dupa ce intervin ingerii, sa setam din nou hp cu hpcurrent
                             // setting the hp of the 2 players with the current one
                             heroes.get(j).setHP();
                             heroes.get(k).setHP();
@@ -136,14 +136,12 @@ public final class Game {
                                 String string1 = heroes.get(k).herodied();
                                 fs.writeWord(string1 + heroes.get(j).getName() + " " + heroes.get(j).getIndex());
                                 fs.writeNewLine();
-//                                heroes.get(j).setXp(heroes.get(k).getLevel());
 
                             }
                             if (heroes.get(j).isDeath()) {
                                 String string1 = heroes.get(j).herodied();
                                 fs.writeWord(string1 + heroes.get(k).getName() + " " + heroes.get(k).getIndex());
                                 fs.writeNewLine();
-//                                heroes.get(k).setXp(heroes.get(j).getLevel());
 
                             }
                             if (!heroes.get(k).isDeath() && heroes.get(j).isDeath()) {
@@ -151,20 +149,20 @@ public final class Game {
                                 heroes.get(k).setXp(heroes.get(j).getLevel());
                                 if (heroes.get(k).getLevel() > level) {
                                     for (int m = level + 1; m <= heroes.get(k).getLevel(); m++) {
-                                        fs.writeWord(heroes.get(k).getName() + " " + heroes.get(k).getIndex() +
-                                                " reached level " + m);
+                                        fs.writeWord(heroes.get(k).levelupintermediar(m));
                                         fs.writeNewLine();
                                     }
+                                    heroes.get(k).setLevelup(false);
                                 }
                             } else if (heroes.get(k).isDeath() && !heroes.get(j).isDeath()) {
                                 int level = heroes.get(j).getLevel();
                                 heroes.get(j).setXp(heroes.get(k).getLevel());
                                 if (heroes.get(j).getLevel() > level) {
                                     for (int m = level + 1; m <= heroes.get(j).getLevel(); m++) {
-                                        fs.writeWord(heroes.get(j).getName() + " " + heroes.get(j).getIndex() +
-                                                " reached level " + m);
+                                        fs.writeWord(heroes.get(j).levelupintermediar(m));
                                         fs.writeNewLine();
                                     }
+                                    heroes.get(j).setLevelup(false);
                                 }
                             }
                         }
@@ -177,20 +175,13 @@ public final class Game {
                     value.resetDamageRec();
                 }
             }
-            for (Hero hero: heroes) {
-                System.out.println("Hp inainte de ingeri: " + hero.getHp());
-//                System.out.println("Xp inainte de ingeri: " + hero.getXp());
-            }
             for(int j = 0; j < nrroundsangel.get(i); j++) {
                 String infoangel = angelsinfo.get(indexangels);
                 String[] arrOfStr = infoangel.split(",");
-//                System.out.println(infoangel);
                 int coordx = Integer.parseInt(arrOfStr[1]);
                 int coordy = Integer.parseInt(arrOfStr[2]);
-//                System.out.println("Coordonata x: " + coordx + ", coordonata y: " + coordy);
                 Angel angel = AngelFactory.getAngel(arrOfStr[0], coordx, coordy);
                 angels.add(angel);
-//                System.out.println("---------------------------------------------");
                 indexangels++;
             }
             for (Angel angel : angels) {
@@ -198,8 +189,6 @@ public final class Game {
                  ActionAngel actionAngel = new ActionAngel();
                  appearAngel.addangel(angel);
                  actionAngel.addangel(angel);
-//                 fs.writeWord(angel.appear());
-//                 fs.writeNewLine();
             }
             for (Angel angel : angels) {
                 fs.writeWord(angel.appear());
@@ -208,6 +197,7 @@ public final class Game {
                     if (hero.getRow() == angel.getCoodx() &&
                             hero.getCol() == angel.getCoordy()) {
                         if (!hero.getDeath() || angel.getName().equals("Spawner")) {
+                            int level = hero.getLevel();
                             if(!angel.getName().equals("Spawner")) {
                                 fs.writeWord(angel.actionangel(hero));
                                 fs.writeNewLine();
@@ -222,28 +212,33 @@ public final class Game {
                               }
                             }
                             if (hero.isLevelup()) {
+                                for (int k = level + 1; k < hero.getLevel(); k++) {
+                                    fs.writeWord(hero.levelupintermediar(k));
+                                    fs.writeNewLine();
+                                }
                                 fs.writeWord(hero.herolevelup());
                                 fs.writeNewLine();
+                                hero.setLevelup(false);
                             }
                             if (hero.isDeath()) {
                                 fs.writeWord(hero.isdeadbyangel());
                                 fs.writeNewLine();
                             }
-                            System.out.println("hp dupa ingeri " + hero.getHpCurrent());
                         }
                     }
                 }
             }
             for (Hero hero : heroes) {
                 hero.setHP();
-                System.out.println("HP dupa ingeri : " + hero.getHp());
-//                System.out.println("Xp dupa ingeri: " + hero.getXp());
             }
             // delete list of angels
             if (angels.size() > 0) {
                 angels.subList(0, angels.size()).clear();
             }
             fs.writeNewLine();
+            for (Hero  hero : heroes) {
+                hero.verifyisfreeze();
+            }
         }
     }
 
@@ -254,7 +249,6 @@ public final class Game {
      */
     public void printboard(final String input, final String output) {
         try {
-//            FileSystem fs = new FileSystem(input, output);
             fs.writeWord("~~ Results ~~");
             fs.writeNewLine();
             for (heroes.Hero hero : heroes) {
@@ -264,13 +258,6 @@ public final class Game {
             fs.close();
         } catch (Exception e1) {
             e1.printStackTrace();
-        }
-//        for (int i = 0 ; i < nrroundsangel.size(); i++) {
-//            System.out.println(nrroundsangel.get(i) + ": " + angelsinfo.get(i));
-//        }
-        System.out.println("--------------------------------");
-        for (angels.Angel angel : angels) {
-            System.out.println(angel.toString());
         }
     }
 }

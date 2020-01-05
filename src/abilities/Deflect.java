@@ -18,9 +18,11 @@ public class Deflect extends Abilities implements Visitor {
      * update the base damage of Deflect ability as the hero's level increases.
      */
     public void setDamage() {
-        if (damageprocent < Constants.MAXIM_PERCENT_DEFLECT - 1) {
+        System.out.println("Intra aici ? " + damageprocent);
+        if (damageprocent < Constants.MAXIM_PERCENT_DEFLECT - 0.1f) {
             damageprocent += Constants.EXTRA_PERCENT_DEFLECT;
         }
+        System.out.println("Noul damage procent: " + damageprocent);
     }
 
     /**
@@ -47,6 +49,7 @@ public class Deflect extends Abilities implements Visitor {
 
     @Override
     public void setCoefDefensive(float coef) {
+
         if (DeflectRogue != 1 ) {
             DeflectRogue -= coef;
 
@@ -74,6 +77,7 @@ public class Deflect extends Abilities implements Visitor {
         dmgpercent = dmgpercent * landBonus;
         // applying the race modifier
         float damagelandrace = dmgpercent * DeflectPyromancer;
+        System.out.println("DeflectPyromancer: " + DeflectPyromancer);
         float dmg = damagelandrace * damage;
         int result = Math.round(dmg);
         System.out.println("Deflect :"  + result);
@@ -113,10 +117,15 @@ public class Deflect extends Abilities implements Visitor {
         if (map.Mapworld.getInstance().getlocation(r.getRow(), r.getCol()) == Constants.DESERT_TYPE) {
             landBonus += Constants.DESERT_BONUS;
         }
+        System.out.println("dmgpercent: " + dmgpercent);
         dmgpercent = dmgpercent * landBonus;
+        System.out.println("dmgpercent: " + dmgpercent);
+        System.out.println("LandBonus: " + landBonus);
         // applying the race modifier
         float damagelandrace = dmgpercent * DeflectRogue;
+        System.out.println("Deflect Rogue: " + DeflectRogue);
         float dmg =  damagelandrace * damage;
+        System.out.println("Damage primit " + damage);
         int result = Math.round(dmg);
         System.out.println("Deflect :"  + result);
         // decrease of the final damage from the opponent's hp

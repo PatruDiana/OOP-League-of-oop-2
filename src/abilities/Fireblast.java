@@ -113,6 +113,7 @@ public class Fireblast extends Abilities implements Visitor {
         // applying the race modifier
         float damagelandrace = FireblastRogue * damagewithland;
         int result = Math.round(damagelandrace);
+        System.out.println("Fireblast:"  + result);
         // decrease of the final damage from the opponent's hp
         r.setHpCurrent(result);
     }
@@ -135,6 +136,7 @@ public class Fireblast extends Abilities implements Visitor {
         // applying the race modifier
         float damagelandrace = FireblastWizard * damagewithland;
         int result = Math.round(damagelandrace);
+        System.out.println("Fireblast:"  + result);
         // decrease of the final damage from the opponent's hp
         w.setHpCurrent(result);
     }
